@@ -1,104 +1,107 @@
-# Nyxiontech PDF Tools
+# Nyxiontech PDF 工具
 
-> Free, open-source PDF and image tools that run entirely in the browser. Files are never uploaded: there is no server-side processing, no account, no tracking and no file limits. Made in Poland by Nyxiontech (https://nyxiontech.com), licensed AGPL-3.0. Also available as a Windows desktop app.
+> 完全在浏览器中运行的免费开源 PDF 与图片工具。文件永远不会上传：没有服务器端处理、没有账号、没有追踪、没有文件数量限制。由 Nyxiontech（https://nyxiontech.com）制作，采用 AGPL-3.0 许可证。另有 Windows 桌面应用。
 
-Use it at https://tools.nyxiontech.com. Each tool has its own page, listed below; the page opens the tool. Polish versions of every page are under https://tools.nyxiontech.com/pl/, where the app's interface is in Polish.
+站点地址 https://tools.nyxiontech.com。中文是默认语言，位于根路径；英文在 https://tools.nyxiontech.com/en/ 下，波兰语在 https://tools.nyxiontech.com/pl/ 下。每个工具都有自己的页面，页面会直接打开工具。
 
-## Tools
+## 工具（中文）
 
-Edit & sign:
-- [Edit PDF](https://tools.nyxiontech.com/edit-pdf): add text, white-out, highlights, boxes and images; reorder, rotate and delete pages.
-- [Sign PDF](https://tools.nyxiontech.com/sign-pdf): draw, type or upload a signature (white background removed) and place it on the page.
-- [Fill PDF form](https://tools.nyxiontech.com/fill-pdf-form): fill interactive form fields, optionally flatten them.
-- [Add page numbers](https://tools.nyxiontech.com/add-page-numbers-to-pdf): position, format, font, start number, skip the cover.
-- [Watermark PDF](https://tools.nyxiontech.com/watermark-pdf): text watermark on every page, diagonal or horizontal, once or tiled.
-- [Edit PDF metadata](https://tools.nyxiontech.com/edit-pdf-metadata): change or wipe title, author, subject, keywords, creator, producer.
+编辑与签名：
+- [编辑 PDF](https://tools.nyxiontech.com/edit-pdf)：添加文字、白色遮盖、高亮、方框和图片；调整页面顺序、旋转和删除页面。
+- [签署 PDF](https://tools.nyxiontech.com/sign-pdf)：手写、输入或上传签名（自动去掉白色背景），放到页面上。
+- [填写 PDF 表单](https://tools.nyxiontech.com/fill-pdf-form)：填写交互式表单字段，可将其压平。
+- [添加页码](https://tools.nyxiontech.com/add-page-numbers-to-pdf)：设置位置、格式、字体、起始编号，可跳过封面。
+- [PDF 水印](https://tools.nyxiontech.com/watermark-pdf)：在每页添加文字水印，可斜向或水平、单个或平铺。
+- [编辑 PDF 元数据](https://tools.nyxiontech.com/edit-pdf-metadata)：查看、修改或清除标题、作者、主题、关键词、创建者、生成器。
 
-Organize:
-- [Merge PDF](https://tools.nyxiontech.com/merge-pdf): combine several PDFs in the order you choose.
-- [Split PDF](https://tools.nyxiontech.com/split-pdf): every page, by ranges, or extract selected pages.
-- [Organize PDF pages](https://tools.nyxiontech.com/organize-pdf-pages): reorder, rotate, duplicate, delete pages; insert pages from other PDFs.
-- [Rotate PDF](https://tools.nyxiontech.com/rotate-pdf): all or selected pages by 90°, 180° or 270°.
+整理：
+- [合并 PDF](https://tools.nyxiontech.com/merge-pdf)：按你选择的顺序把多个 PDF 合成一个文件。
+- [拆分 PDF](https://tools.nyxiontech.com/split-pdf)：按单页、页码范围拆分，或提取指定页面。
+- [整理 PDF 页面](https://tools.nyxiontech.com/organize-pdf-pages)：重排、旋转、复制、删除页面，也可从其他 PDF 插入页面。
+- [旋转 PDF](https://tools.nyxiontech.com/rotate-pdf)：全部或部分页面旋转 90°、180° 或 270°。
 
-Optimize:
-- [Compress PDF](https://tools.nyxiontech.com/compress-pdf): lossless repack, or rasterize at three quality levels (best for scans).
+优化：
+- [压缩 PDF](https://tools.nyxiontech.com/compress-pdf)：无损重新打包，或按三档质量转为图片（适合扫描件）。
 
-Convert:
-- [OCR PDF](https://tools.nyxiontech.com/ocr-pdf): searchable PDF from scans or photos, Polish and English (Tesseract, on-device).
-- [Image to PDF](https://tools.nyxiontech.com/image-to-pdf): JPG, PNG, WebP, GIF or iPhone HEIC to one PDF.
-- [PDF to JPG](https://tools.nyxiontech.com/pdf-to-jpg): pages as JPG or PNG at 72, 150 or 300 dpi.
-- [PDF to text](https://tools.nyxiontech.com/pdf-to-text): extract text, copy or save as .txt.
-- [PDF to Word](https://tools.nyxiontech.com/pdf-to-word): .docx with text, paragraphs, bold and sizes (not tables, columns or images).
-- [Word to PDF](https://tools.nyxiontech.com/word-to-pdf): .docx to PDF through the browser's print dialog (basic layout).
+转换：
+- [OCR 识别 PDF](https://tools.nyxiontech.com/ocr-pdf)：把扫描件或照片变成可搜索的 PDF，支持波兰语和英语（Tesseract，本地运行）。
+- [图片转 PDF](https://tools.nyxiontech.com/image-to-pdf)：JPG、PNG、WebP、GIF 或 iPhone HEIC 合成一个 PDF。
+- [PDF 转 JPG](https://tools.nyxiontech.com/pdf-to-jpg)：把页面导出为 JPG 或 PNG，可选 72、150、300 dpi。
+- [PDF 转文本](https://tools.nyxiontech.com/pdf-to-text)：提取文字，可复制或保存为 .txt。
+- [PDF 转 Word](https://tools.nyxiontech.com/pdf-to-word)：生成 .docx，保留文字、段落、粗体和字号（不含表格、分栏和图片）。
+- [Word 转 PDF](https://tools.nyxiontech.com/word-to-pdf)：通过浏览器打印对话框把 .docx 存为 PDF（基本版式）。
 
-Security:
-- [Protect PDF](https://tools.nyxiontech.com/protect-pdf): AES-256 password and permissions.
-- [Unlock PDF](https://tools.nyxiontech.com/unlock-pdf): remove the password or restrictions from a PDF you can open (does not crack passwords).
-- [Redact PDF](https://tools.nyxiontech.com/redact-pdf): find text, preset patterns (e-mail, phone, IBAN, NIP/PESEL) or draw boxes; redacted content is really removed.
+安全：
+- [加密 PDF](https://tools.nyxiontech.com/protect-pdf)：AES-256 密码与权限设置。
+- [解锁 PDF](https://tools.nyxiontech.com/unlock-pdf)：去掉你能打开的 PDF 的密码或限制（不会破解密码）。
+- [涂黑 PDF](https://tools.nyxiontech.com/redact-pdf)：按文字、预设模式（邮箱、电话、IBAN、NIP/PESEL）查找或手动画框，被涂黑的内容会被真正删除。
 
-Review:
-- [Compare PDF](https://tools.nyxiontech.com/compare-pdf): text diff and visual diff per page.
+审阅：
+- [对比 PDF](https://tools.nyxiontech.com/compare-pdf)：逐页比较文字差异与画面差异。
 
-Images:
-- [Image converter](https://tools.nyxiontech.com/image-converter): compress, resize and convert JPG, PNG, WebP in bulk; strips EXIF.
-- [Remove background](https://tools.nyxiontech.com/remove-background): on-device AI (U²-Net) or plain colour; transparent PNG.
-- [HEIC to JPG](https://tools.nyxiontech.com/heic-to-jpg): iPhone photos to JPG.
+图片：
+- [图片转换与压缩](https://tools.nyxiontech.com/image-converter)：批量压缩、缩放并在 JPG、PNG、WebP 之间转换，同时去除 EXIF。
+- [移除背景](https://tools.nyxiontech.com/remove-background)：本地 AI（U²-Net）或纯色抠图，输出透明 PNG。
+- [HEIC 转 JPG](https://tools.nyxiontech.com/heic-to-jpg)：把 iPhone 照片转换成处处都能打开的 JPG。
 
-Other:
-- [QR code generator](https://tools.nyxiontech.com/qr-code-generator): link, Wi-Fi, contact card, e-mail or text; PNG or SVG; static, no tracking.
+其他：
+- [二维码生成器](https://tools.nyxiontech.com/qr-code-generator)：链接、Wi-Fi、名片、邮件或文本；PNG 或 SVG；静态、无追踪。
 
-Polish pages (strony po polsku): [Narzędzia PDF](https://tools.nyxiontech.com/pl/), [Edytuj PDF](https://tools.nyxiontech.com/pl/edytuj-pdf), [Podpisz PDF](https://tools.nyxiontech.com/pl/podpisz-pdf), [Wypełnij formularz PDF](https://tools.nyxiontech.com/pl/wypelnij-formularz-pdf), [Numeracja stron](https://tools.nyxiontech.com/pl/numeracja-stron-pdf), [Znak wodny](https://tools.nyxiontech.com/pl/znak-wodny-pdf), [Metadane PDF](https://tools.nyxiontech.com/pl/edytuj-metadane-pdf), [Połącz PDF](https://tools.nyxiontech.com/pl/polacz-pdf), [Podziel PDF](https://tools.nyxiontech.com/pl/podziel-pdf), [Kolejność stron](https://tools.nyxiontech.com/pl/zmien-kolejnosc-stron-pdf), [Obróć PDF](https://tools.nyxiontech.com/pl/obroc-pdf), [Kompresuj PDF](https://tools.nyxiontech.com/pl/kompresuj-pdf), [OCR PDF](https://tools.nyxiontech.com/pl/ocr-pdf), [JPG do PDF](https://tools.nyxiontech.com/pl/jpg-do-pdf), [PDF do JPG](https://tools.nyxiontech.com/pl/pdf-do-jpg), [PDF do tekstu](https://tools.nyxiontech.com/pl/pdf-do-tekstu), [PDF do Word](https://tools.nyxiontech.com/pl/pdf-do-word), [Word do PDF](https://tools.nyxiontech.com/pl/word-do-pdf), [Zabezpiecz PDF hasłem](https://tools.nyxiontech.com/pl/zabezpiecz-pdf-haslem), [Odblokuj PDF](https://tools.nyxiontech.com/pl/odblokuj-pdf), [Anonimizuj PDF](https://tools.nyxiontech.com/pl/anonimizuj-pdf), [Porównaj PDF](https://tools.nyxiontech.com/pl/porownaj-pdf), [Kompresja zdjęć](https://tools.nyxiontech.com/pl/kompresuj-zdjecia), [Usuń tło](https://tools.nyxiontech.com/pl/usun-tlo), [HEIC do JPG](https://tools.nyxiontech.com/pl/heic-do-jpg), [Generator kodów QR](https://tools.nyxiontech.com/pl/generator-kodow-qr).
+英文页面（English pages）：[Tools](https://tools.nyxiontech.com/en/)、[Edit PDF](https://tools.nyxiontech.com/en/edit-pdf)、[Sign PDF](https://tools.nyxiontech.com/en/sign-pdf)、[Fill PDF form](https://tools.nyxiontech.com/en/fill-pdf-form)、[Add page numbers](https://tools.nyxiontech.com/en/add-page-numbers-to-pdf)、[Watermark PDF](https://tools.nyxiontech.com/en/watermark-pdf)、[Edit PDF metadata](https://tools.nyxiontech.com/en/edit-pdf-metadata)、[Merge PDF](https://tools.nyxiontech.com/en/merge-pdf)、[Split PDF](https://tools.nyxiontech.com/en/split-pdf)、[Organize pages](https://tools.nyxiontech.com/en/organize-pdf-pages)、[Rotate PDF](https://tools.nyxiontech.com/en/rotate-pdf)、[Compress PDF](https://tools.nyxiontech.com/en/compress-pdf)、[OCR PDF](https://tools.nyxiontech.com/en/ocr-pdf)、[Image to PDF](https://tools.nyxiontech.com/en/image-to-pdf)、[PDF to JPG](https://tools.nyxiontech.com/en/pdf-to-jpg)、[PDF to text](https://tools.nyxiontech.com/en/pdf-to-text)、[PDF to Word](https://tools.nyxiontech.com/en/pdf-to-word)、[Word to PDF](https://tools.nyxiontech.com/en/word-to-pdf)、[Protect PDF](https://tools.nyxiontech.com/en/protect-pdf)、[Unlock PDF](https://tools.nyxiontech.com/en/unlock-pdf)、[Redact PDF](https://tools.nyxiontech.com/en/redact-pdf)、[Compare PDF](https://tools.nyxiontech.com/en/compare-pdf)、[Image converter](https://tools.nyxiontech.com/en/image-converter)、[Remove background](https://tools.nyxiontech.com/en/remove-background)、[HEIC to JPG](https://tools.nyxiontech.com/en/heic-to-jpg)、[QR code generator](https://tools.nyxiontech.com/en/qr-code-generator)。
 
-## Guides
+波兰语页面（strony po polsku）：[Narzędzia PDF](https://tools.nyxiontech.com/pl/)、[Edytuj PDF](https://tools.nyxiontech.com/pl/edytuj-pdf)、[Podpisz PDF](https://tools.nyxiontech.com/pl/podpisz-pdf)、[Wypełnij formularz PDF](https://tools.nyxiontech.com/pl/wypelnij-formularz-pdf)、[Numeracja stron](https://tools.nyxiontech.com/pl/numeracja-stron-pdf)、[Znak wodny](https://tools.nyxiontech.com/pl/znak-wodny-pdf)、[Metadane PDF](https://tools.nyxiontech.com/pl/edytuj-metadane-pdf)、[Połącz PDF](https://tools.nyxiontech.com/pl/polacz-pdf)、[Podziel PDF](https://tools.nyxiontech.com/pl/podziel-pdf)、[Kolejność stron](https://tools.nyxiontech.com/pl/zmien-kolejnosc-stron-pdf)、[Obróć PDF](https://tools.nyxiontech.com/pl/obroc-pdf)、[Kompresuj PDF](https://tools.nyxiontech.com/pl/kompresuj-pdf)、[OCR PDF](https://tools.nyxiontech.com/pl/ocr-pdf)、[JPG do PDF](https://tools.nyxiontech.com/pl/jpg-do-pdf)、[PDF do JPG](https://tools.nyxiontech.com/pl/pdf-do-jpg)、[PDF do tekstu](https://tools.nyxiontech.com/pl/pdf-do-tekstu)、[PDF do Word](https://tools.nyxiontech.com/pl/pdf-do-word)、[Word do PDF](https://tools.nyxiontech.com/pl/word-do-pdf)、[Zabezpiecz PDF hasłem](https://tools.nyxiontech.com/pl/zabezpiecz-pdf-haslem)、[Odblokuj PDF](https://tools.nyxiontech.com/pl/odblokuj-pdf)、[Anonimizuj PDF](https://tools.nyxiontech.com/pl/anonimizuj-pdf)、[Porównaj PDF](https://tools.nyxiontech.com/pl/porownaj-pdf)、[Kompresja zdjęć](https://tools.nyxiontech.com/pl/kompresuj-zdjecia)、[Usuń tło](https://tools.nyxiontech.com/pl/usun-tlo)、[HEIC do JPG](https://tools.nyxiontech.com/pl/heic-do-jpg)、[Generator kodów QR](https://tools.nyxiontech.com/pl/generator-kodow-qr)。
 
-All of them on one page: [Guides](https://tools.nyxiontech.com/guides) in English, [Poradniki](https://tools.nyxiontech.com/pl/poradniki) in Polish. The Polish guides are a separate set rather than translations: they answer Polish questions (GDPR as the Polish authority enforces it, public information bulletins, Polish mail providers' attachment limits).
+## 指南
 
-- [How to check a PDF redaction really removed the text](https://tools.nyxiontech.com/guides/check-pdf-redaction): copy-paste, search and pdftotext checks; comments, forms and metadata.
-- [How to sign a PDF without uploading it](https://tools.nyxiontech.com/guides/sign-pdf-without-uploading): drawn, typed or scanned signature in the browser; simple vs qualified signatures (eIDAS art. 25, US ESIGN Act).
-- [How to check and remove hidden PDF metadata](https://tools.nyxiontech.com/guides/remove-pdf-metadata): information dictionary and XMP, pdfinfo and exiftool checks, what Edit metadata removes and what it keeps.
-- [How to compress a PDF to send it by e-mail](https://tools.nyxiontech.com/guides/compress-pdf-for-email): e-mail size limits and base64 overhead, lossless vs image levels, what compression cannot shrink.
-- [How to convert HEIC photos to JPG without uploading them](https://tools.nyxiontech.com/guides/heic-to-jpg-without-uploading): batch conversion in the browser, quality and resize settings, EXIF removal, Apple's settings to avoid HEIC.
-- [How to convert a PDF to Word without uploading it](https://tools.nyxiontech.com/guides/pdf-to-word-without-uploading): what carries over to .docx and what does not (tables, columns, images, fonts), OCR first for scans.
-- [How to check if a PDF tool uploads your files](https://tools.nyxiontech.com/guides/does-a-pdf-tool-upload-your-files): watch the network panel, run the tool with the connection off, read the Content-Security-Policy; which privacy claims prove nothing.
-- [How to merge PDFs without uploading them](https://tools.nyxiontech.com/guides/merge-pdf-without-uploading): merging in the browser in the order you choose, and what a merge drops: bookmarks, form fields, signatures and document properties.
-- [Why text copied from a PDF pastes as gibberish](https://tools.nyxiontech.com/guides/pdf-text-pastes-as-gibberish): telling four causes apart in one click, the ToUnicode CMap, why converting to Word does not help, and the skip setting that decides whether OCR does anything.
-- [Why phone photos come out sideways in a PDF](https://tools.nyxiontech.com/guides/photos-sideways-in-pdf): the EXIF orientation tag, why rotating pages afterwards is the wrong fix, and the page size, orientation and margin settings for building the PDF correctly.
-- [How to remove a password from a PDF](https://tools.nyxiontech.com/guides/remove-pdf-password): telling an open password from a permissions password, the empty password box that undoes the second, and why no tool recovers one you do not know.
-- [How to password-protect a PDF without uploading it](https://tools.nyxiontech.com/guides/password-protect-pdf): AES-256 in the browser, the password against the owner password, and the two permissions that are granted whatever you tick.
-- [How to compare two PDFs and see what changed](https://tools.nyxiontech.com/guides/compare-two-pdfs): a text diff and a pixel diff over the same pair, what red and green mean, and the page shift that makes every page look rewritten.
-- [How to split a PDF without uploading it](https://tools.nyxiontech.com/guides/split-pdf-without-uploading): ranges against extract, the open-ended `7-` range, and the bookmarks, form fields and signatures a split leaves behind.
-- [Anonimizacja dokumentów PDF zgodnie z RODO](https://tools.nyxiontech.com/pl/poradnik/anonimizacja-pdf-rodo) (Polish): anonymisation vs pseudonymisation, verification, checklist for CVs and contracts.
-- [Anonimizacja dokumentów w BIP szkoły: jak sprawdzić, czy zaczernienie działa](https://tools.nyxiontech.com/pl/poradnik/anonimizacja-bip-szkola) (Polish): what goes into a school's public information bulletin, why a black rectangle in Word or a PDF often hides nothing, and five checks before publishing.
-- [OCR skanów i łączenie dokumentów klienta bez wysyłania do chmury](https://tools.nyxiontech.com/pl/poradnik/ocr-i-laczenie-dokumentow-bez-chmury) (Polish): scans into one searchable Polish PDF, then merge, shrink for e-mail and lock with a password, all in the browser.
-- [Jak podpisać PDF w przeglądarce bez wysyłania pliku](https://tools.nyxiontech.com/pl/poradnik/podpis-pdf-bez-wysylania) (Polish): image signature as a simple electronic signature (eIDAS art. 25) vs podpis zaufany and podpis kwalifikowany; when Polish law requires which (Kodeks cywilny art. 78¹).
-- [Jak zamienić zdjęcia HEIC na JPG bez wysyłania ich na serwer](https://tools.nyxiontech.com/pl/poradnik/heic-do-jpg-bez-wysylania) (Polish): what HEIC is, batch conversion in the browser, what happens to EXIF, what the tool will not do, and how to stop an iPhone producing HEIC.
-- [Jak zamienić PDF na Word bez wysyłania pliku](https://tools.nyxiontech.com/pl/poradnik/pdf-do-word-bez-wysylania) (Polish): what carries over into .docx and what does not, why a scan needs OCR first, and Polish characters in the result.
-- [Jak zmniejszyć PDF, żeby zmieścił się w e-mailu](https://tools.nyxiontech.com/pl/poradnik/kompresja-pdf-do-emaila) (Polish): attachment limits at Gmail, Outlook, WP, o2 and Interia, base64 overhead, and which compression level destroys the text layer.
-- [Jak połączyć pliki PDF bez wysyłania ich na serwer](https://tools.nyxiontech.com/pl/poradnik/polacz-pdf-bez-wysylania) (Polish): merging in the browser in the chosen order, and what a merge drops: bookmarks, form fields, signatures and metadata.
-- [Ukryte metadane w PDF: co widzi odbiorca dokumentu](https://tools.nyxiontech.com/pl/poradnik/metadane-pdf-bip-rodo) (Polish): the information dictionary and the XMP packet, how to check both, why clearing the fields is not enough, and what Polish accessibility law actually requires.
-- [Jak usunąć hasło z wyciągu bankowego, nie wysyłając go na obcy serwer](https://tools.nyxiontech.com/pl/poradnik/haslo-wyciag-bankowy) (Polish): the difference between an open password and a permissions password, removing either in the browser, why the tool cannot crack an unknown password, and what to redact before sending a statement on.
-- [Jak zabezpieczyć PDF hasłem, zanim wyślesz go z danymi osobowymi](https://tools.nyxiontech.com/pl/poradnik/zabezpiecz-pdf-przed-wyslaniem) (Polish): encryption as a measure named in GDPR art. 32(1)(a), why server-side "protect" tools need the unprotected file first, user vs owner password, AES-256 (/V 5, /R 6, /AESV3), what permission flags cannot enforce, and sending the password on a separate channel.
-- [Jak podzielić zbiorczy skan na osobne dokumenty, nie wysyłając go nikomu](https://tools.nyxiontech.com/pl/poradnik/podziel-skan-na-dokumenty) (Polish): splitting a feeder scan in the browser instead of installing desktop software, the three modes (every page, ranges, extract), how the output files are named, why the parts can add up to more than the original, and what to do with them next.
-- [Jak zrobić jeden PDF ze zdjęć dokumentów zrobionych telefonem](https://tools.nyxiontech.com/pl/poradnik/zdjecia-dokumentow-do-pdf) (Polish): phone photos into one PDF, one per page, in an order you drag; page size, orientation and margin options; why EXIF rotation makes photos come out sideways elsewhere and not here; and what to do with the file next.
-- [Jak wypełnić formularz PDF, żeby polskie znaki nie zniknęły](https://tools.nyxiontech.com/pl/poradnik/wypelnij-formularz-pdf) (Polish): telling a form with real fields from a flat page, why the 14 standard PDF fonts drop ą ę ł so filled forms lose their Polish characters, regenerating field appearances with an embedded font, when to flatten, and what to do when the form has no fields at all.
-- [Jak skopiować tekst z PDF, z którego nie da się go zaznaczyć](https://tools.nyxiontech.com/pl/poradnik/skopiuj-tekst-z-pdf) (Polish): one click that separates the four causes, a scan with no text layer, a copy-protection flag that extraction ignores anyway, a broken character map that makes text paste as nonsense (run OCR with "skip pages that already have text" unticked), and a file that needs a password to open at all.
-- [Jak zmniejszyć zdjęcie przed wysłaniem i usunąć z niego lokalizację](https://tools.nyxiontech.com/pl/poradnik/zmniejsz-zdjecie-i-usun-exif) (Polish): what EXIF carries including GPS coordinates, why the tool has no "remove EXIF" button (the file is rebuilt from pixels, so there is nothing left to remove, though the rotation is applied on the way), quality and dimension settings, and how to hit a form's size limit.
-- [Jak znaleźć zmiany między dwiema wersjami umowy w PDF](https://tools.nyxiontech.com/pl/poradnik/porownaj-wersje-umowy-pdf) (Polish): comparing a contract against its returned version without uploading either, the line diff and the pixel diff and why neither is enough alone, what counts as a change, and why two separate scans light up everywhere.
-- [Jak oznaczyć skan dowodu osobistego, zanim go komuś wyślesz](https://tools.nyxiontech.com/pl/poradnik/znak-wodny-na-skanie-dowodu) (Polish): asking for the legal basis first (UODO fined ING Bank Śląski 18,416,400 zł in August 2025 for scanning ID documents without a purpose analysis), writing a watermark that states recipient, purpose and date, Polish diacritics in the watermark, and why covering a PESEL on a scan only works once the page is rasterised.
+全部指南在一页：中文 [指南](https://tools.nyxiontech.com/guides)，英文 [Guides](https://tools.nyxiontech.com/en/guides)，波兰语 [Poradniki](https://tools.nyxiontech.com/pl/poradniki)。波兰语指南是独立的一套内容，而不是翻译：它们回答波兰的具体问题（波兰数据保护局的执法、公共信息公告、波兰邮箱服务的附件限制）。
 
-## Frequently asked questions
+中文指南：
+- [如何检查 PDF 脱敏是否真的删除了文字](https://tools.nyxiontech.com/guides/check-pdf-redaction)：复制粘贴、搜索和 pdftotext 检查；批注、表单和元数据。
+- [如何不上传文件签署 PDF](https://tools.nyxiontech.com/guides/sign-pdf-without-uploading)：在浏览器中手写、输入或扫描签名；简单签名与合格签名的区别（eIDAS 第 25 条、美国 ESIGN 法）。
+- [如何检查并删除 PDF 中的隐藏元数据](https://tools.nyxiontech.com/guides/remove-pdf-metadata)：信息字典与 XMP，pdfinfo 和 exiftool 检查，编辑元数据工具会删什么、保留什么。
+- [如何压缩 PDF 以便通过电子邮件发送](https://tools.nyxiontech.com/guides/compress-pdf-for-email)：邮件大小限制与 base64 开销，无损压缩与图片化压缩，压缩不了什么。
+- [如何不上传文件将 HEIC 转换为 JPG](https://tools.nyxiontech.com/guides/heic-to-jpg-without-uploading)：浏览器中批量转换、质量与缩放设置、去除 EXIF、让 iPhone 不再生成 HEIC 的设置。
+- [如何不上传文件将 PDF 转换为 Word](https://tools.nyxiontech.com/guides/pdf-to-word-without-uploading)：哪些内容会进入 .docx、哪些不会（表格、分栏、图片、字体），扫描件要先做 OCR。
+- [如何检查 PDF 工具是否上传你的文件](https://tools.nyxiontech.com/guides/does-a-pdf-tool-upload-your-files)：看网络面板、断网运行、读 Content-Security-Policy；哪些隐私声明证明不了什么。
+- [如何在不发送文件的前提下合并 PDF](https://tools.nyxiontech.com/guides/merge-pdf-without-uploading)：在浏览器中按选定顺序合并，以及合并会丢掉什么：书签、表单字段、数字签名和文档属性。
+- [PDF 复制出的文字为什么是乱码，如何修复](https://tools.nyxiontech.com/guides/pdf-text-pastes-as-gibberish)：一次点击区分四种原因、ToUnicode CMap、为什么转 Word 没用，以及决定 OCR 是否起作用的跳过设置。
+- [手机照片在 PDF 里为什么是横的](https://tools.nyxiontech.com/guides/photos-sideways-in-pdf)：EXIF 方向标记、为什么事后旋转页面是错的，以及生成 PDF 时正确的页面尺寸、方向和边距设置。
+- [如何去掉能正常打开的 PDF 上的密码](https://tools.nyxiontech.com/guides/remove-pdf-password)：区分打开密码与权限密码、用空密码框取消后者，以及为什么没有工具能恢复你不知道的密码。
+- [如何给 PDF 设置密码而不上传文件](https://tools.nyxiontech.com/guides/password-protect-pdf)：浏览器中的 AES-256、用户密码与所有者密码、无论怎么勾选都会被授予的两项权限。
+- [如何比较两份 PDF 并看出改了什么](https://tools.nyxiontech.com/guides/compare-two-pdfs)：对同一对文件做文字差异和像素差异，红色与绿色代表什么，以及让每页都像被重写的页面偏移。
+- [如何拆分 PDF 而不上传文件](https://tools.nyxiontech.com/guides/split-pdf-without-uploading)：范围与提取的区别、开放式范围 `7-`，以及拆分后留下的书签、表单字段和签名。
 
-- Are my files uploaded? No. Every tool runs in your browser on your own device; the files never leave it. The page loads its code once from tools.nyxiontech.com and makes no other requests.
-- Is it free? Yes, with no limits, sign-up or watermarks. It is open source under the GNU AGPL v3. Donations are welcome at https://ko-fi.com/nyxiontech.
-- Does it work offline? The Windows app works fully offline. The web version needs a connection to load a tool's files (for example the OCR language data) the first time you use it.
-- How do I make a scanned PDF searchable? Use "OCR: searchable PDF". It adds an invisible text layer over the unchanged page images.
-- How do I sign a PDF for free? Open "Sign PDF", draw, type or upload your signature and place it on the page, then download.
-- Is redaction safe? Yes. Pages with redactions are re-rendered as images with the boxes burnt in, so the hidden text is removed, not just covered.
-- Which alternatives does it replace? Online services such as iLovePDF, Smallpdf or Adobe Acrobat online for everyday tasks, without uploading documents.
+英文指南（English guides）：
+- [How to check a PDF redaction really removed the text](https://tools.nyxiontech.com/en/guides/check-pdf-redaction)
+- [How to sign a PDF without uploading it](https://tools.nyxiontech.com/en/guides/sign-pdf-without-uploading)
+- [How to check and remove hidden PDF metadata](https://tools.nyxiontech.com/en/guides/remove-pdf-metadata)
+- [How to compress a PDF to send it by e-mail](https://tools.nyxiontech.com/en/guides/compress-pdf-for-email)
+- [How to convert HEIC photos to JPG without uploading them](https://tools.nyxiontech.com/en/guides/heic-to-jpg-without-uploading)
+- [How to convert a PDF to Word without uploading it](https://tools.nyxiontech.com/en/guides/pdf-to-word-without-uploading)
+- [How to check if a PDF tool uploads your files](https://tools.nyxiontech.com/en/guides/does-a-pdf-tool-upload-your-files)
+- [How to merge PDFs without uploading them](https://tools.nyxiontech.com/en/guides/merge-pdf-without-uploading)
+- [Why text copied from a PDF pastes as gibberish](https://tools.nyxiontech.com/en/guides/pdf-text-pastes-as-gibberish)
+- [Why phone photos come out sideways in a PDF](https://tools.nyxiontech.com/en/guides/photos-sideways-in-pdf)
+- [How to remove a password from a PDF](https://tools.nyxiontech.com/en/guides/remove-pdf-password)
+- [How to password-protect a PDF without uploading it](https://tools.nyxiontech.com/en/guides/password-protect-pdf)
+- [How to compare two PDFs and see what changed](https://tools.nyxiontech.com/en/guides/compare-two-pdfs)
+- [How to split a PDF without uploading it](https://tools.nyxiontech.com/en/guides/split-pdf-without-uploading)
 
-## Links
+波兰语指南（Polish）：[Anonimizacja dokumentów PDF zgodnie z RODO](https://tools.nyxiontech.com/pl/poradnik/anonimizacja-pdf-rodo)、[Anonimizacja w BIP szkoły](https://tools.nyxiontech.com/pl/poradnik/anonimizacja-bip-szkola)、[OCR i łączenie dokumentów bez chmury](https://tools.nyxiontech.com/pl/poradnik/ocr-i-laczenie-dokumentow-bez-chmury)、[Jak podpisać PDF w przeglądarce](https://tools.nyxiontech.com/pl/poradnik/podpis-pdf-bez-wysylania)、[HEIC do JPG bez wysyłania](https://tools.nyxiontech.com/pl/poradnik/heic-do-jpg-bez-wysylania)、[Jak usunąć hasło z wyciągu bankowego](https://tools.nyxiontech.com/pl/poradnik/haslo-wyciag-bankowy)、[PDF do Word bez wysyłania](https://tools.nyxiontech.com/pl/poradnik/pdf-do-word-bez-wysylania)、[Kompresja PDF do e-maila](https://tools.nyxiontech.com/pl/poradnik/kompresja-pdf-do-emaila)、[Połącz PDF bez wysyłania](https://tools.nyxiontech.com/pl/poradnik/polacz-pdf-bez-wysylania)、[Metadane PDF w BIP i RODO](https://tools.nyxiontech.com/pl/poradnik/metadane-pdf-bip-rodo)、[Zabezpiecz PDF przed wysłaniem](https://tools.nyxiontech.com/pl/poradnik/zabezpiecz-pdf-przed-wyslaniem)、[Podziel skan na dokumenty](https://tools.nyxiontech.com/pl/poradnik/podziel-skan-na-dokumenty)、[Zdjęcia dokumentów do PDF](https://tools.nyxiontech.com/pl/poradnik/zdjecia-dokumentow-do-pdf)、[Znak wodny na skanie dowodu](https://tools.nyxiontech.com/pl/poradnik/znak-wodny-na-skanie-dowodu)、[Wypełnij formularz PDF](https://tools.nyxiontech.com/pl/poradnik/wypelnij-formularz-pdf)、[Skopiuj tekst z PDF](https://tools.nyxiontech.com/pl/poradnik/skopiuj-tekst-z-pdf)、[Zmniejsz zdjęcie i usuń EXIF](https://tools.nyxiontech.com/pl/poradnik/zmniejsz-zdjecie-i-usun-exif)、[Porównaj wersje umowy](https://tools.nyxiontech.com/pl/poradnik/porownaj-wersje-umowy-pdf)。
 
-- [Source code](https://github.com/jurecki007/nyxiontech-tools): README, licence and changelog
-- [Windows download](https://github.com/jurecki007/nyxiontech-tools/releases/latest): installer with automatic, signed updates
-- [Privacy policy](https://github.com/jurecki007/nyxiontech-tools/blob/master/PRIVACY.md)
-- [Nyxiontech](https://nyxiontech.com): AI implementations, business automation and custom web and mobile apps
+## 常见问题
+
+- 我的文件会被上传吗？不会。每个工具都在你设备上的浏览器中运行，文件不会离开设备。页面只从 tools.nyxiontech.com 加载一次代码，不发出其他请求。
+- 免费吗？是的，没有限制、无需注册、不加任何水印。代码以 GNU AGPL v3 开源，欢迎在 https://ko-fi.com/nyxiontech 支持项目。
+- 能离线使用吗？Windows 应用完全离线。网页版第一次使用某个工具时需要联网加载它的文件（例如 OCR 语言数据）。
+- 怎样让扫描 PDF 可以搜索？使用“OCR 识别 PDF”，它会在保持原样的页面图片上叠加一层不可见的文字层。
+- 怎样免费签署 PDF？打开“签署 PDF”，手写、输入或上传签名，放到页面上，然后下载。
+- 涂黑安全吗？安全。含涂黑区域的页面会被重新渲染为图片，黑框直接烧进图像，被隐藏的文字会被删除，而不只是被遮住。
+- 它替代哪些服务？iLovePDF、Smallpdf、Adobe Acrobat 在线版等日常在线工具，但不需要上传文档。
+
+## 链接
+
+- [源代码](https://github.com/jurecki007/nyxiontech-tools)：README、许可证和更新日志
+- [Windows 下载](https://github.com/jurecki007/nyxiontech-tools/releases/latest)：带自动签名更新的安装包
+- [隐私政策](https://github.com/jurecki007/nyxiontech-tools/blob/master/PRIVACY.md)
+- [Nyxiontech](https://nyxiontech.com)：AI 实施、业务自动化、定制 Web 与移动应用

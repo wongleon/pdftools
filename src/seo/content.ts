@@ -3,7 +3,8 @@
 // the app never loads this file. Keep it accurate: describe what the tool really
 // does (see src/utilities), and keep titles under 60 and descriptions under 155
 // characters (the build fails otherwise).
-import type { Lang, ToolId } from '../utilities/routes.ts';
+import { TOOL_IDS, type Lang, type ToolId } from '../utilities/routes.ts';
+import { COMMON_ZH, GUIDES_INDEX_ZH, HOME_ZH, TOOL_ZH } from './content-zh.ts';
 
 export interface PageCopy {
   /** Short name for links and breadcrumbs, e.g. "Merge PDF". */
@@ -1139,6 +1140,7 @@ export const TOOL_PAGES: Record<ToolId, ToolPage> = {
  * each index lists only its own.
  */
 export const GUIDES_INDEX: Record<Lang, { title: string; description: string; h1: string; intro: string[] }> = {
+  zh: GUIDES_INDEX_ZH,
   en: {
     title: 'Guides: how to work with PDFs without uploading them',
     description:
@@ -1178,6 +1180,7 @@ export const COMMON: Record<
     footer: string;
   }
 > = {
+  zh: COMMON_ZH,
   en: {
     home: 'Nyxiontech PDF Tools',
     howTo: 'How to use it',
@@ -1188,7 +1191,7 @@ export const COMMON: Record<
     privacyQ: 'Are my files uploaded?',
     privacyA: (tool) =>
       `No. ${tool} runs in your browser on your own device, so your files never leave it. It is free, with no account, no limits and no watermark, and the code is open source (AGPL-3.0).`,
-    otherLanguage: 'Polski',
+    otherLanguage: '中文',
     source: 'Source code',
     footer: 'Free and open source. Files never leave your device. Made in Poland, in the EU.',
   },
@@ -1224,3 +1227,14 @@ export const HOME_PL = {
     ['Czy jest aplikacja na komputer?', 'Tak, na Windows 10 i 11. Działa bez internetu i sama się aktualizuje podpisanymi aktualizacjami. Pobierzesz ją ze strony wydań na GitHubie.'],
   ] as [string, string][],
 };
+
+/** Copy of one tool page in every language: Chinese from content-zh.ts, the rest here. */
+const pickCopy = (pick: (page: ToolPage) => PageCopy) => Object.fromEntries(TOOL_IDS.map((id) => [id, pick(TOOL_PAGES[id])])) as Record<ToolId, PageCopy>;
+
+export const TOOL_COPY: Record<Lang, Record<ToolId, PageCopy>> = {
+  zh: TOOL_ZH,
+  en: pickCopy((page) => page.en),
+  pl: pickCopy((page) => page.pl),
+};
+
+export { HOME_ZH };

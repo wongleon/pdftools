@@ -1,20 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { BookOpen, Download, Globe, Heart, Info, LayoutDashboard, RefreshCw, Search, Sparkles } from 'lucide-react';
+import { LayoutDashboard, RefreshCw, Search } from 'lucide-react';
 import { AboutDialog, type AboutTab } from './AboutDialog';
-import { GithubIcon } from './GithubIcon';
-import { LanguageSwitch } from './LanguageSwitch';
 import { Home } from './Home';
-import { PrivacyIndicator } from './Privacy';
 import { SupportNote } from './SupportNote';
-import { APP_NAME, APP_SHORT_NAME, APP_VERSION, COMPANY_URL, DONATE_URL, REPO_URL } from '../config';
-import { externalLink, isDesktop } from '../lib/desktop';
+import { APP_NAME, APP_SHORT_NAME, REPO_URL } from '../config';
+import { externalLink } from '../lib/desktop';
 import { en } from '../i18n/en';
 import { fold, storedIn, useT } from '../i18n';
-import { useInstallPrompt } from '../lib/pwa';
 import { linkTo, useRoute } from '../lib/route';
 import { useUpdates, type AvailableUpdate, type InstallState } from '../lib/updates';
 import { getUtility, UTILITIES, UTILITY_GROUPS, type ToolId, type UtilityContext } from '../utilities';
-import { guidesPath } from '../utilities/routes';
 import type { Project } from '../types';
 
 /** Dashboard layout: tool navigation on the left, the dashboard or a tool page on the right. */
@@ -24,7 +19,6 @@ export function Shell({ ctx, onOpenProject, error, onDismissError }: { ctx: Util
   const [about, setAbout] = useState<AboutTab | null>(null);
   const closeAbout = useCallback(() => setAbout(null), []);
   const updates = useUpdates();
-  const install = useInstallPrompt();
   const update = updates.available;
   const utility = route.tool ? getUtility(route.tool) : undefined;
   const t = useT();
@@ -43,9 +37,7 @@ export function Shell({ ctx, onOpenProject, error, onDismissError }: { ctx: Util
     <div className="shell">
       <aside className="nav">
         <a className="brand nav-brand" {...linkTo(null)}>
-          NYXION<b>TECH</b>
-          <i>.</i>
-          <span>PDF</span>
+          PDFTOOLS
         </a>
         <label className="nav-search">
           <Search size={15} />
@@ -73,49 +65,6 @@ export function Shell({ ctx, onOpenProject, error, onDismissError }: { ctx: Util
           })}
           {q && !UTILITIES.some((u) => matches(u.id)) && <p className="hint nav-empty">{t.shell.noMatch(query)}</p>}
         </nav>
-        <div className="nav-foot">
-          <PrivacyIndicator onOpen={() => setAbout('privacy')} />
-          <div className="nav-links">
-            <button onClick={() => setAbout('changes')} title={t.shell.whatsNewTitle}>
-              <Sparkles size={13} /> {t.shell.whatsNew}
-            </button>
-            <button onClick={() => setAbout('about')} title={t.shell.aboutTitle(APP_NAME)}>
-              <Info size={13} /> {t.shell.about}
-            </button>
-            {/* The guides are web pages, so the desktop app, which works offline, has none.
-                The prerendered fallback carries this link for crawlers; this is the same link
-                where a person using the app can see it. */}
-            {!isDesktop && (
-              <a href={guidesPath(route.lang)} title={t.shell.guidesTitle}>
-                <BookOpen size={13} /> {t.shell.guides}
-              </a>
-            )}
-            {install && (
-              <button className="install" onClick={install} title={t.shell.installTitle}>
-                <Download size={13} /> {t.shell.install}
-              </button>
-            )}
-            <a href={REPO_URL} {...externalLink} title={t.shell.starTitle}>
-              <GithubIcon size={13} /> {t.shell.star}
-            </a>
-            <a href={COMPANY_URL} {...externalLink} title={t.shell.madeBy}>
-              <Globe size={13} /> nyxiontech.com
-            </a>
-            {DONATE_URL && (
-              <a className="donate" href={DONATE_URL} {...externalLink} title={t.shell.supportTitle}>
-                <Heart size={13} /> {t.shell.support}
-              </a>
-            )}
-          </div>
-          <div className="nav-version-row">
-            <div className="nav-version">v{APP_VERSION} · AGPL-3.0</div>
-            <LanguageSwitch />
-          </div>
-          {/* Directories of European software will not list a product whose country of origin
-              they cannot establish from a public source. The prerendered pages carry it for
-              crawlers; this is the same fact where a person reading the page can see it. */}
-          <div className="nav-origin">{t.shell.madeIn}</div>
-        </div>
       </aside>
 
       <main className="shell-main">

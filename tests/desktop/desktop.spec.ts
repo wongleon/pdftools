@@ -138,7 +138,7 @@ test('keeps the window on the app', async ({ app: { page } }) => {
 });
 
 test('branding, About and outside links fit the desktop app', async ({ app: { page } }) => {
-  await expect(page.locator('.nav-brand')).toContainText('NYXIONTECH');
+  await expect(page.locator('.nav-brand')).toContainText('PDFTOOLS');
   // Outside links must not open new WebView windows: without target they navigate,
   // and the navigation guard hands them to the default browser.
   for (const link of await page.locator('.nav-links a').all()) {

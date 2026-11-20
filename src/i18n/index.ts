@@ -1,7 +1,7 @@
 // The app's interface language. See TRANSLATING.md for adding a language.
 //
-// Web: the language is the one of the address (/pl/... is Polish, everything else
-// English), so a shared link always opens in the same language, and the language
+// Web: the language is the one of the address (the root is Chinese, /en/... English,
+// /pl/... Polish), so a shared link always opens in the same language, and the language
 // switch goes to the equivalent address (src/lib/route.ts).
 // Desktop app: the address is always #/tool/<id>, so the language follows the
 // system (navigator.languages) unless the user picked one with the switch, which is
@@ -11,25 +11,27 @@
 // language changes; plain functions (error messages, defaults) use `tr()`.
 import { useSyncExternalStore } from 'react';
 import { isDesktop } from '../lib/desktop';
-import { parsePath, type Lang } from '../utilities/routes';
+import { langFromPath, type Lang } from '../utilities/routes';
 import { de } from './de';
 import { en, type Messages } from './en';
 import { es } from './es';
 import { fr } from './fr';
 import { pl } from './pl';
 import { uk } from './uk';
+import { zh } from './zh';
 
 export type { Messages } from './en';
 export { plural, pluralUk } from './plural';
 
 /** Every interface language. Each one must have every key of `en` (TypeScript checks it). */
-export const MESSAGES = { en, pl, de, es, fr, uk } satisfies Record<Lang, Messages> & Record<string, Messages>;
+export const MESSAGES = { zh, en, pl, de, es, fr, uk } satisfies Record<Lang, Messages> & Record<string, Messages>;
 
 export type UiLang = keyof typeof MESSAGES;
 export const UI_LANGS = Object.keys(MESSAGES) as UiLang[];
 
 /** How each language names itself, for the language switch. */
 export const LANG_NAMES: Record<UiLang, { short: string; name: string }> = {
+  zh: { short: '中文', name: '中文' },
   en: { short: 'EN', name: 'English' },
   pl: { short: 'PL', name: 'Polski' },
   de: { short: 'DE', name: 'Deutsch' },
@@ -52,14 +54,14 @@ function storedLang(): UiLang | null {
   }
 }
 
-/** The first of the system's preferred languages that the app has, else English. */
+/** The first of the system's preferred languages that the app has, else Chinese. */
 export function systemLang(): UiLang {
   const prefs = typeof navigator === 'undefined' ? [] : navigator.languages?.length ? navigator.languages : [navigator.language];
   for (const p of prefs) {
     const base = p?.toLowerCase().split('-')[0];
     if (isUiLang(base)) return base;
   }
-  return 'en';
+  return 'zh';
 }
 
 /**
@@ -80,16 +82,16 @@ function devLang(): UiLang | null {
 
 /** The language for the current address (web) or settings (desktop app). */
 export function detectLang(): UiLang {
-  if (typeof window === 'undefined') return 'en';
+  if (typeof window === 'undefined') return 'zh';
   if (isDesktop) return storedLang() ?? systemLang();
-  return devLang() ?? parsePath(window.location.pathname)?.lang ?? 'en';
+  return devLang() ?? langFromPath(window.location.pathname);
 }
 
 let current: UiLang = detectLang();
 const listeners = new Set<() => void>();
 
 function apply(lang: UiLang) {
-  if (typeof document !== 'undefined') document.documentElement.lang = lang;
+  if (typeof document !== 'undefined') document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
   if (lang === current) return;
   current = lang;
   for (const l of listeners) l();

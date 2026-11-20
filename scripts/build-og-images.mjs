@@ -39,6 +39,7 @@ const FONTS = {
 
 // A home page needs no label above its own name, so it has none here.
 const COPY = {
+  zh: { tagline: '开源、无需账号、文件不上传', guide: '指南', tool: '工具', index: '指南' },
   en: { tagline: 'Open source, no account, no uploads', guide: 'Guide', tool: 'Tool', index: 'Guides' },
   pl: { tagline: 'Otwarty kod, bez konta, bez wysyłania plików', guide: 'Poradnik', tool: 'Narzędzie', index: 'Poradniki' },
 };
@@ -86,7 +87,10 @@ function readPage(file) {
   return {
     name,
     file: rel,
-    lang: one(html, /<html lang="([^"]*)"/) === 'pl' ? 'pl' : 'en',
+    lang: (() => {
+      const lang = one(html, /<html lang="([^"]*)"/);
+      return lang === 'pl' ? 'pl' : lang.startsWith('zh') ? 'zh' : 'en';
+    })(),
     headline: one(html, /<h1>([^<]*)<\/h1>/),
     description: firstSentence(one(html, /<meta name="description" content="([^"]*)"/)),
     // The page that lists the guides is neither one of them nor a tool.
@@ -106,6 +110,14 @@ function readPage(file) {
  * the description and the tagline; the fit check after each render proves it.
  */
 function headlineStyle(text) {
+  // A Chinese character is about as wide as its font size, so a Chinese headline
+  // needs fewer characters per line than the Latin one.
+  if (/[\u4e00-\u9fff]/.test(text)) {
+    if (text.length <= 12) return { size: 88, width: 760 };
+    if (text.length <= 20) return { size: 68, width: 860 };
+    if (text.length <= 30) return { size: 54, width: 940 };
+    return { size: 44, width: 980 };
+  }
   if (text.length <= 38) return { size: 72, width: 680 };
   if (text.length <= 64) return { size: 58, width: 860 };
   if (text.length <= 96) return { size: 48, width: 920 };

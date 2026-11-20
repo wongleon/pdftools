@@ -65,7 +65,7 @@ function seoPages(): Plugin {
     transformIndexHtml(html) {
       const marker = /<!-- tool-links:[^>]*-->/;
       if (!marker.test(html)) throw new Error('index.html: the tool-links marker is missing');
-      return html.replace(marker, () => toolLinks('en'));
+      return html.replace(marker, () => toolLinks('zh'));
     },
     generateBundle: {
       order: 'post',

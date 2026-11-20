@@ -1,11 +1,12 @@
 // Builds the static pages search engines index: one per tool and language
-// (/merge-pdf, /pl/polacz-pdf), the Polish home (/pl/), the guides
-// (/guides/check-pdf-redaction; see guides.ts), the guides index (/guides, /pl/poradniki),
-// the 404 page and the sitemap. Each page is the built index.html with its own title, description,
-// canonical URL, hreflang links, structured data and crawlable fallback content;
-// the app loads on top and opens the tool. Run at build time by vite.config.ts;
+// (/merge-pdf is Chinese, /en/merge-pdf English, /pl/polacz-pdf Polish), the home
+// pages (/, /en/, /pl/), the guides (/guides/check-pdf-redaction;
+// see guides.ts), the guides index (/guides, /en/guides, /pl/poradniki),
+// the 404 page and the sitemap. Each page is the built index.html with its own title,
+// description, canonical URL, hreflang links, structured data and crawlable fallback
+// content; the app loads on top and opens the tool. Run at build time by vite.config.ts;
 // pure string functions, no Node or browser APIs.
-import { COMMON, GUIDES_INDEX, HOME_PL, TOOL_PAGES, type PageCopy } from './content.ts';
+import { COMMON, GUIDES_INDEX, HOME_PL, HOME_ZH, TOOL_COPY, TOOL_PAGES, type PageCopy } from './content.ts';
 import { GUIDES, guidesFor, type Block, type Guide } from './guides.ts';
 import { guidesPath, homePath, TOOL_IDS, toolPath, type Lang, type ToolId } from '../utilities/routes.ts';
 
@@ -17,32 +18,55 @@ const REPO = 'https://github.com/jurecki007/nyxiontech-tools';
 export const MAX_TITLE = 60;
 export const MAX_DESCRIPTION = 155;
 
+/** Every language the site is published in; Chinese is the default. */
+const LANGS: Lang[] = ['zh', 'en', 'pl'];
+
+/** The other language a page links to in its footer. */
+const otherLang = (lang: Lang): Lang => (lang === 'zh' ? 'en' : lang === 'en' ? 'zh' : 'en');
+
+/** How each language names itself in a language link. */
+const LANG_LABEL: Record<Lang, string> = { zh: '中文', en: 'English', pl: 'Polski' };
+
+/** The Windows desktop app link in a home page footer. */
+const WINDOWS_APP: Record<Lang, string> = { zh: 'Windows 应用', en: 'Windows app', pl: 'Aplikacja na Windows' };
+
+const OG_LOCALE: Record<Lang, string> = { zh: 'zh_CN', en: 'en_US', pl: 'pl_PL' };
+
+/** The "this app needs JavaScript" line, swapped into the noscript block. */
+const NOSCRIPT: Record<Lang, string> = {
+  zh: '此应用需要启用 JavaScript 才能运行。所有处理都在你的设备上完成。',
+  en: 'This app needs JavaScript. Everything runs on your device.',
+  pl: 'Ta aplikacja wymaga JavaScriptu. Wszystko działa na Twoim urządzeniu.',
+};
+
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const url = (path: string) => SITE + path;
 
 /**
  * The social card a page shows when its address is pasted into a chat or a post.
  * Every page has its own, generated from this name by `scripts/build-og-images.mjs`
- * and committed to `public/og/`. The English home page keeps the hand-made card.
+ * and committed to `public/og/`. The English pages reuse the card of the same page in
+ * Chinese, and the Chinese home page keeps the hand-made card.
  */
-const ogImageName = (path: string) => path.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home';
-export const ogImage = (path: string) => (path === '/' ? `${SITE}/og-image.png` : `${SITE}/og/${ogImageName(path)}.png`);
+const ogImageName = (path: string) => path.replace(/^\/en(?=\/)/, '').replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home';
+export const ogImage = (path: string) => (path === '/' || path === '/en/' ? `${SITE}/og-image.png` : `${SITE}/og/${ogImageName(path)}.png`);
 
-/** hreflang links for a page that exists in both languages. */
-function alternates(en: string, pl: string) {
+/** hreflang links for a page that exists in every language. */
+function alternates(paths: Record<Lang, string>) {
   return [
-    `<link rel="alternate" hreflang="en" href="${url(en)}" />`,
-    `<link rel="alternate" hreflang="pl" href="${url(pl)}" />`,
-    `<link rel="alternate" hreflang="x-default" href="${url(en)}" />`,
+    `<link rel="alternate" hreflang="zh-CN" href="${url(paths.zh)}" />`,
+    `<link rel="alternate" hreflang="en" href="${url(paths.en)}" />`,
+    `<link rel="alternate" hreflang="pl" href="${url(paths.pl)}" />`,
+    `<link rel="alternate" hreflang="x-default" href="${url(paths.zh)}" />`,
   ].join('\n    ');
 }
 
-/** Head tags the English home page (index.html) gets: its hreflang links. */
-export const homeAlternates = () => alternates(homePath('en'), homePath('pl'));
+/** Head tags the home pages get: their hreflang links. */
+export const homeAlternates = () => alternates({ zh: homePath('zh'), en: homePath('en'), pl: homePath('pl') });
 
 /** The list of links to every tool page, for a home page's fallback content. */
 export function toolLinks(lang: Lang) {
-  const items = TOOL_IDS.map((id) => `<li><a href="${toolPath(id, lang)}">${esc(TOOL_PAGES[id][lang].name)}</a></li>`);
+  const items = TOOL_IDS.map((id) => `<li><a href="${toolPath(id, lang)}">${esc(TOOL_COPY[lang][id].name)}</a></li>`);
   return `<ul>\n          ${items.join('\n          ')}\n        </ul>`;
 }
 
@@ -87,20 +111,19 @@ function render(template: string, h: Head): string {
   ]) {
     html = swap(html, new RegExp(`<meta ${attr} content="[^"]*" />`), `<meta ${attr} content="${esc(value)}" />`, attr);
   }
-  const locale = h.lang === 'pl' ? ['pl_PL', 'en_US'] : ['en_US', 'pl_PL'];
+  const locale = OG_LOCALE[h.lang];
+  const others = LANGS.filter((l) => l !== h.lang).map((l) => OG_LOCALE[l]);
   html = swap(
     html,
     /<meta property="og:locale" content="[^"]*" \/>/,
-    `<meta property="og:locale" content="${locale[0]}" />\n    <meta property="og:locale:alternate" content="${locale[1]}" />`,
+    `<meta property="og:locale" content="${locale}" />\n    ${others.map((l) => `<meta property="og:locale:alternate" content="${l}" />`).join('\n    ')}`,
     'og:locale',
   );
   // A data block, not a script: "<" is escaped so the text can never close the tag.
   const ld = h.jsonLd ? `<script type="application/ld+json">\n${JSON.stringify(h.jsonLd, null, 2).replace(/</g, '\\u003c')}\n    </script>` : '';
   html = swap(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/, ld, 'JSON-LD block');
   html = swap(html, /(<main class="boot-fallback"[^>]*>)[\s\S]*?(<noscript>[\s\S]*?<\/noscript>\s*<\/main>)/, (_, open: string, tail: string) => `${open}\n${h.body}\n        ${tail}`, 'fallback <main>');
-  if (h.lang === 'pl') {
-    html = html.replace('<noscript><p>This app needs JavaScript. Everything runs on your device.</p>', '<noscript><p>Ta aplikacja wymaga JavaScriptu. Wszystko działa na Twoim urządzeniu.</p>');
-  }
+  html = html.replace(/<noscript><p>[^<]*<\/p>/, `<noscript><p>${NOSCRIPT[h.lang]}</p>`);
   return html;
 }
 
@@ -176,8 +199,8 @@ const faqHtml = (faq: [string, string][]) => faq.map(([q, a]) => `${IND}<h3>${es
 
 function toolBody(id: ToolId, lang: Lang, copy: PageCopy, faq: [string, string][]) {
   const c = COMMON[lang];
-  const other: Lang = lang === 'en' ? 'pl' : 'en';
-  const related = TOOL_PAGES[id].related.map((r) => `<a href="${toolPath(r, lang)}">${esc(TOOL_PAGES[r][lang].name)}</a>`);
+  const other = otherLang(lang);
+  const related = TOOL_PAGES[id].related.map((r) => `<a href="${toolPath(r, lang)}">${esc(TOOL_COPY[lang][r].name)}</a>`);
   return [
     `${IND}<p><a href="${homePath(lang)}">${esc(c.home)}</a> › ${esc(copy.name)}</p>`,
     `${IND}<h1>${esc(copy.h1)}</h1>`,
@@ -189,7 +212,7 @@ function toolBody(id: ToolId, lang: Lang, copy: PageCopy, faq: [string, string][
     ...guidesFor(id, lang).map((g) => `${IND}<p><a href="${g.path}">${esc(g.name)}</a></p>`),
     `${IND}<h2>${esc(c.related)}</h2>`,
     list('ul', related),
-    `${IND}<p><a href="${homePath(lang)}">${esc(c.allTools)}</a> · <a href="${guidesPath(lang)}">${esc(c.guides)}</a> · <a href="${toolPath(id, other)}" hreflang="${other}" lang="${other}">${esc(c.otherLanguage)}</a> · <a href="${REPO}">${esc(c.source)}</a></p>`,
+    `${IND}<p><a href="${homePath(lang)}">${esc(c.allTools)}</a> · <a href="${guidesPath(lang)}">${esc(c.guides)}</a> · <a href="${toolPath(id, other)}" hreflang="${other}" lang="${other}">${esc(LANG_LABEL[other])}</a> · <a href="${REPO}">${esc(c.source)}</a></p>`,
     `${IND}<p>${esc(c.footer)}</p>`,
   ].join('\n');
 }
@@ -246,7 +269,7 @@ const GUIDE_STYLE = `<style>
 
 function guidePage(template: string, g: Guide): string {
   const c = COMMON[g.lang];
-  const tool = TOOL_PAGES[g.tool][g.lang];
+  const tool = TOOL_COPY[g.lang][g.tool];
   const toolUrl = toolPath(g.tool, g.lang);
   const pageUrl = url(g.path);
   const body = [
@@ -299,7 +322,7 @@ function guidePage(template: string, g: Guide): string {
   });
   html = swap(html, /<meta property="og:type" content="[^"]*" \/>/, '<meta property="og:type" content="article" />', 'og:type');
   // One language only: no alternate locale either.
-  html = swap(html, /\s*<meta property="og:locale:alternate" content="[^"]*" \/>/, '', 'og:locale:alternate');
+  html = html.replace(/\s*<meta property="og:locale:alternate" content="[^"]*" \/>/g, '');
   return asArticle(html);
 }
 
@@ -319,15 +342,15 @@ function asArticle(html: string): string {
 }
 
 /**
- * The page that lists the guides, one per language (/guides, /pl/poradniki). An article
- * like the guides, so the app is not loaded over it, but unlike a guide it exists in both
- * languages and keeps its hreflang links. Entries are grouped by the tool each guide is
- * about, in the order of the app's sidebar, so the page reads as a map of the site.
+ * The page that lists the guides, one per language (/guides, /en/guides, /pl/poradniki). An
+ * article like the guides, so the app is not loaded over it, but unlike a guide it exists
+ * in every language and keeps its hreflang links. Entries are grouped by the tool each
+ * guide is about, in the order of the app's sidebar, so the page reads as a map of the site.
  */
 function guidesIndexPage(template: string, lang: Lang): string {
   const c = COMMON[lang];
   const copy = GUIDES_INDEX[lang];
-  const other: Lang = lang === 'en' ? 'pl' : 'en';
+  const other = otherLang(lang);
   const path = guidesPath(lang);
   const pageUrl = url(path);
   const groups = TOOL_IDS.map((id) => ({ id, guides: GUIDES.filter((g) => g.lang === lang && g.tool === id) })).filter((g) => g.guides.length > 0);
@@ -337,13 +360,13 @@ function guidesIndexPage(template: string, lang: Lang): string {
     `${IND}<h1>${esc(copy.h1)}</h1>`,
     ...copy.intro.map((p) => `${IND}<p>${esc(p)}</p>`),
     ...groups.flatMap(({ id, guides }) => [
-      `${IND}<h2><a href="${toolPath(id, lang)}">${esc(TOOL_PAGES[id][lang].name)}</a></h2>`,
+      `${IND}<h2><a href="${toolPath(id, lang)}">${esc(TOOL_COPY[lang][id].name)}</a></h2>`,
       list(
         'ul',
         guides.map((g) => `<a href="${g.path}">${esc(g.h1)}</a><br /><span class="note">${esc(g.description)}</span>`),
       ),
     ]),
-    `${IND}<footer><p><a href="${homePath(lang)}">${esc(c.allTools)}</a> · <a href="${guidesPath(other)}" hreflang="${other}" lang="${other}">${esc(COMMON[other].guides)}</a> · <a href="${REPO}">${esc(c.source)}</a> · ${esc(c.footer)}</p></footer>`,
+    `${IND}<footer><p><a href="${homePath(lang)}">${esc(c.allTools)}</a> · <a href="${guidesPath(other)}" hreflang="${other}" lang="${other}">${esc(LANG_LABEL[other])}</a> · <a href="${REPO}">${esc(c.source)}</a> · ${esc(c.footer)}</p></footer>`,
   ].join('\n');
   return asArticle(
     render(template, {
@@ -351,7 +374,7 @@ function guidesIndexPage(template: string, lang: Lang): string {
       title: copy.title,
       description: copy.description,
       path,
-      alternates: alternates(guidesPath('en'), guidesPath('pl')),
+      alternates: alternates({ zh: guidesPath('zh'), en: guidesPath('en'), pl: guidesPath('pl') }),
       jsonLd: {
         '@context': 'https://schema.org',
         '@graph': [
@@ -405,15 +428,72 @@ function checkCopy(where: string, title: string, description: string) {
   if (description.length > MAX_DESCRIPTION) throw new Error(`seo pages: ${where} description is ${description.length} characters (max ${MAX_DESCRIPTION})`);
 }
 
+/** The English home page (/en/); the Chinese one is the app's index.html. */
+const HOME_EN = {
+  title: 'Free PDF tools that never upload your files | Nyxiontech',
+  description: 'Free, open-source PDF tools that run in your browser: edit, sign, merge, compress, OCR, redact and convert. Your files are never uploaded.',
+  h1: 'Nyxiontech PDF Tools',
+  intro: [
+    'Free, open-source PDF and image tools that run entirely in your browser. Files are never uploaded: no account, no tracking, no limits.',
+    'There is also a Windows app that works offline and updates itself, and the interface speaks Chinese, English and Polish.',
+  ],
+  faq: [
+    ['Are my files uploaded?', 'No. Every tool runs in your browser on your own device, so your files never leave it. There is no account and no tracking.'],
+    ['Is Nyxiontech PDF Tools free?', 'Yes, with no limits, sign-up or watermarks. It is open source under the GNU AGPL v3.'],
+    ['How do I make a scanned PDF searchable?', 'Open "OCR: searchable PDF" and add the file. It recognises the text and adds an invisible text layer over the unchanged pages.'],
+    ['Is the redaction safe?', 'Yes. Pages with redactions are re-rendered as images with the boxes burnt in, so the hidden text is removed, not just covered.'],
+    ['Is there a desktop app?', 'Yes, for Windows 10 and 11. It works offline and updates itself with signed updates. Download it from the GitHub releases page.'],
+  ] as [string, string][],
+};
+
+/** Body of a home page, in any language. */
+function homeBody(lang: Lang, copy: { h1: string; intro: string[]; faq: [string, string][] }) {
+  const c = COMMON[lang];
+  const other = otherLang(lang);
+  return [
+    `${IND}<h1>${esc(copy.h1)}</h1>`,
+    ...copy.intro.map((p) => `${IND}<p>${esc(p)}</p>`),
+    `${IND}<h2>${esc(c.allTools)}</h2>`,
+    `${IND}${toolLinks(lang)}`,
+    `${IND}<h2>${esc(c.faq)}</h2>`,
+    faqHtml(copy.faq),
+    `${IND}<p><a href="${guidesPath(lang)}">${esc(c.guides)}</a> · <a href="${homePath(other)}" hreflang="${other}" lang="${other}">${esc(LANG_LABEL[other])}</a> · <a href="${REPO}">${esc(c.source)}</a> · <a href="${REPO}/releases/latest">${esc(WINDOWS_APP[lang])}</a> · <a href="https://nyxiontech.com">Nyxiontech</a></p>`,
+    `${IND}<p>${esc(c.footer)}</p>`,
+  ].join('\n');
+}
+
+/** Structured data for a home page. */
+function homeJsonLd(lang: Lang, copy: { title: string; description: string; faq: [string, string][] }) {
+  const pageUrl = url(homePath(lang));
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organization,
+      website,
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: copy.title,
+        description: copy.description,
+        inLanguage: lang,
+        isPartOf: { '@id': WEBSITE_ID },
+        about: { '@id': `${SITE}/#app` },
+      },
+      faqLd(`${pageUrl}#faq`, copy.faq),
+    ],
+  };
+}
+
 /**
  * Every generated page. File names follow Cloudflare Pages' clean URLs: "merge-pdf.html"
- * is served at /merge-pdf (no trailing slash, no redirect) and "pl/index.html" at /pl/.
+ * is served at /merge-pdf (no trailing slash, no redirect) and "en/index.html" at /en/.
  */
 export function buildPages(template: string): StaticPage[] {
   const pages: StaticPage[] = [];
   for (const id of TOOL_IDS) {
-    for (const lang of ['en', 'pl'] as const) {
-      const copy = TOOL_PAGES[id][lang];
+    for (const lang of LANGS) {
+      const copy = TOOL_COPY[lang][id];
       checkCopy(`${id} (${lang})`, copy.title, copy.description);
       const faq: [string, string][] = [...copy.faq, [COMMON[lang].privacyQ, COMMON[lang].privacyA(copy.name)]];
       const path = toolPath(id, lang);
@@ -427,7 +507,7 @@ export function buildPages(template: string): StaticPage[] {
           title: copy.title,
           description: copy.description,
           path,
-          alternates: alternates(toolPath(id, 'en'), toolPath(id, 'pl')),
+          alternates: alternates({ zh: toolPath(id, 'zh'), en: toolPath(id, 'en'), pl: toolPath(id, 'pl') }),
           jsonLd: toolJsonLd(id, lang, copy, faq),
           body: toolBody(id, lang, copy, faq),
         }),
@@ -435,51 +515,32 @@ export function buildPages(template: string): StaticPage[] {
     }
   }
 
-  checkCopy('home (pl)', HOME_PL.title, HOME_PL.description);
-  const plHome = url(homePath('pl'));
-  pages.push({
-    file: 'pl/index.html',
-    path: homePath('pl'),
-    lang: 'pl',
-    title: HOME_PL.title,
-    html: render(template, {
-      lang: 'pl',
-      title: HOME_PL.title,
-      description: HOME_PL.description,
-      path: homePath('pl'),
-      alternates: homeAlternates(),
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@graph': [
-          organization,
-          website,
-          {
-            '@type': 'WebPage',
-            '@id': `${plHome}#webpage`,
-            url: plHome,
-            name: HOME_PL.title,
-            description: HOME_PL.description,
-            inLanguage: 'pl',
-            isPartOf: { '@id': WEBSITE_ID },
-            about: { '@id': `${SITE}/#app` },
-          },
-          faqLd(`${plHome}#faq`, HOME_PL.faq),
-        ],
-      },
-      body: [
-        `${IND}<h1>${esc(HOME_PL.h1)}</h1>`,
-        ...HOME_PL.intro.map((p) => `${IND}<p>${esc(p)}</p>`),
-        `${IND}<h2>${esc(COMMON.pl.allTools)}</h2>`,
-        `${IND}${toolLinks('pl')}`,
-        `${IND}<h2>${esc(COMMON.pl.faq)}</h2>`,
-        faqHtml(HOME_PL.faq),
-        `${IND}<p><a href="${guidesPath('pl')}">${esc(COMMON.pl.guides)}</a> · <a href="/" hreflang="en" lang="en">English</a> · <a href="${REPO}">${esc(COMMON.pl.source)}</a> · <a href="${REPO}/releases/latest">Aplikacja na Windows</a> · <a href="https://nyxiontech.com">Nyxiontech</a></p>`,
-        `${IND}<p>${esc(COMMON.pl.footer)}</p>`,
-      ].join('\n'),
-    }),
-  });
+  const homes: [Lang, typeof HOME_EN][] = [
+    ['zh', HOME_ZH],
+    ['en', HOME_EN],
+    ['pl', HOME_PL],
+  ];
+  for (const [lang, copy] of homes) {
+    checkCopy(`home (${lang})`, copy.title, copy.description);
+    const path = homePath(lang);
+    pages.push({
+      file: `${path.slice(1)}index.html`,
+      path,
+      lang,
+      title: copy.title,
+      html: render(template, {
+        lang,
+        title: copy.title,
+        description: copy.description,
+        path,
+        alternates: homeAlternates(),
+        jsonLd: homeJsonLd(lang, copy),
+        body: homeBody(lang, copy),
+      }),
+    });
+  }
 
-  for (const lang of ['en', 'pl'] as const) {
+  for (const lang of LANGS) {
     const copy = GUIDES_INDEX[lang];
     checkCopy(`guides index (${lang})`, copy.title, copy.description);
     const path = guidesPath(lang);
@@ -495,39 +556,45 @@ export function buildPages(template: string): StaticPage[] {
 
 /** The page every unknown address gets, with a 404 status. Doesn't load the app. */
 export function notFoundPage(): string {
-  const links = TOOL_IDS.map((id) => `<a href="${toolPath(id, 'en')}">${esc(TOOL_PAGES[id].en.name)}</a>`).join(' · ');
+  const links = TOOL_IDS.map((id) => `<a href="${toolPath(id, 'zh')}">${esc(TOOL_COPY.zh[id].name)}</a>`).join(' · ');
   return `<!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Page not found | Nyxiontech PDF Tools</title>
+    <title>页面未找到 | Nyxiontech PDF 工具</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body style="max-width: 46rem; margin: 3rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; line-height: 1.5; color: #14171c; background: #fff">
-    <h1>Page not found</h1>
-    <p>There is nothing at this address. <a href="/">Open Nyxiontech PDF Tools</a>, or pick a tool:</p>
+    <h1>页面未找到</h1>
+    <p>这个地址没有内容。<a href="/">打开 Nyxiontech PDF 工具</a>，或选择一个工具：</p>
     <p>${links}</p>
+    <p lang="en">There is nothing at this address. <a href="/en/">Open Nyxiontech PDF Tools</a>.</p>
     <p lang="pl">Nie ma takiej strony. <a href="/pl/">Przejdź do narzędzi PDF Nyxiontech</a>.</p>
   </body>
 </html>
 `;
 }
 
-/** sitemap.xml: every page in both languages, each with its hreflang alternates; guides (one language) without. */
+/** sitemap.xml: every page in every language, each with its hreflang alternates; guides (one language) without. */
 export function sitemap(): string {
-  const entry = (loc: string, en: string, pl: string) =>
+  const entry = (loc: string, paths: Record<Lang, string>) =>
     [
       '  <url>',
       `    <loc>${url(loc)}</loc>`,
-      `    <xhtml:link rel="alternate" hreflang="en" href="${url(en)}" />`,
-      `    <xhtml:link rel="alternate" hreflang="pl" href="${url(pl)}" />`,
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${url(en)}" />`,
+      `    <xhtml:link rel="alternate" hreflang="zh-CN" href="${url(paths.zh)}" />`,
+      `    <xhtml:link rel="alternate" hreflang="en" href="${url(paths.en)}" />`,
+      `    <xhtml:link rel="alternate" hreflang="pl" href="${url(paths.pl)}" />`,
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${url(paths.zh)}" />`,
       '  </url>',
     ].join('\n');
-  const pairs: [string, string][] = [[homePath('en'), homePath('pl')], [guidesPath('en'), guidesPath('pl')], ...TOOL_IDS.map((id): [string, string] => [toolPath(id, 'en'), toolPath(id, 'pl')])];
-  const urls = pairs.flatMap(([en, pl]) => [entry(en, en, pl), entry(pl, en, pl)]);
+  const sets: Record<Lang, string>[] = [
+    { zh: homePath('zh'), en: homePath('en'), pl: homePath('pl') },
+    { zh: guidesPath('zh'), en: guidesPath('en'), pl: guidesPath('pl') },
+    ...TOOL_IDS.map((id): Record<Lang, string> => ({ zh: toolPath(id, 'zh'), en: toolPath(id, 'en'), pl: toolPath(id, 'pl') })),
+  ];
+  const urls = sets.flatMap((paths) => LANGS.map((lang) => entry(paths[lang], paths)));
   for (const g of GUIDES) urls.push(['  <url>', `    <loc>${url(g.path)}</loc>`, '  </url>'].join('\n'));
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">

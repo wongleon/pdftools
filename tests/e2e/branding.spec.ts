@@ -6,7 +6,7 @@ test.describe('branding, about and updates', () => {
   test('shows the Nyxiontech name, version and links', async ({ page }) => {
     await page.goto('/#/');
     await expect(page).toHaveTitle('Nyxiontech PDF Tools');
-    await expect(page.locator('.nav-brand')).toContainText('NYXIONTECH');
+    await expect(page.locator('.nav-brand')).toContainText('PDFTOOLS');
     await expect(page.locator('.nav-version')).toHaveText(/^v\d+\.\d+\.\d+/);
     await expect(page.locator('.nav-links a', { hasText: 'nyxiontech.com' })).toHaveAttribute('href', 'https://nyxiontech.com');
     await expect(page.locator('.nav-links a', { hasText: 'GitHub' })).toHaveAttribute('href', /github\.com/);

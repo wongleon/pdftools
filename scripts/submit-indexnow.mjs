@@ -102,7 +102,7 @@ function addedSince(ref) {
 
   const routes = readFileSync(join('src', 'utilities', 'routes.ts'), 'utf8');
   const slugs = {};
-  for (const m of routes.matchAll(/'?([a-z-]+)'?:\s*\{\s*en:\s*'([^']+)',\s*pl:\s*'([^']+)'/g)) slugs[m[1]] = { en: m[2], pl: m[3] };
+  for (const m of routes.matchAll(/'?([a-z-]+)'?:\s*\{\s*zh:\s*'([^']+)',\s*en:\s*'([^']+)',\s*pl:\s*'([^']+)'/g)) slugs[m[1]] = { zh: m[2], en: m[3], pl: m[4] };
 
   const guides = readFileSync(join('src', 'seo', 'guides.ts'), 'utf8');
   const tools = new Set();
@@ -111,7 +111,7 @@ function addedSince(ref) {
     if (!added.has(path)) continue;
     found++;
     if (!slugs[tool]) fail(`Guide ${path} names tool "${tool}", which is not in routes.ts.`);
-    tools.add(`/${lang === 'pl' ? 'pl/' : ''}${slugs[tool][lang]}`);
+    tools.add(`/${lang === 'pl' ? 'pl/' : lang === 'en' ? 'en/' : ''}${slugs[tool][lang]}`);
   }
   if (found !== added.size) fail(`Found ${found} of ${added.size} added guides in guides.ts; the file may have been reformatted.`);
   return [...added, ...tools].sort();

@@ -12,6 +12,8 @@
 // at it: its own tool page and the sitemap are not enough to make it findable. Link in the
 // guide's own language unless you say in the sentence that the target is in another one.
 import type { Lang, ToolId } from '../utilities/routes.ts';
+import { GUIDES_ZH_A } from './guides-zh-a.ts';
+import { GUIDES_ZH_B } from './guides-zh-b.ts';
 
 export type Block = { h2: string } | { p: string } | { ul: string[] } | { ol: string[] } | { pre: string };
 
@@ -74,7 +76,7 @@ const PDF2_TOUNICODE = 'https://pdf-issues.pdfa.org/32000-2-2020/clause09.html';
 const PDF2_ENCRYPTION = 'https://pdf-issues.pdfa.org/32000-2-2020/clause07.html#H7.6';
 const MDN_CREATE_IMAGE_BITMAP = 'https://developer.mozilla.org/en-US/docs/Web/API/Window/createImageBitmap';
 
-export const GUIDES: Guide[] = [
+const GUIDES_EN_PL: Guide[] = [
   {
     path: '/pl/poradnik/anonimizacja-pdf-rodo',
     lang: 'pl',
@@ -244,7 +246,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        p: 'Dokładny opis tych testów znajdziesz w poradniku [Anonimizacja PDF zgodnie z RODO](/pl/poradnik/anonimizacja-pdf-rodo), a po angielsku w [How to check a PDF redaction](/guides/check-pdf-redaction). Informatyk może sprawdzić cały plik jednym poleceniem z pakietu Poppler, które wypisze każdy ciąg 11 cyfr, czyli tyle, ile ma PESEL:',
+        p: 'Dokładny opis tych testów znajdziesz w poradniku [Anonimizacja PDF zgodnie z RODO](/pl/poradnik/anonimizacja-pdf-rodo), a po angielsku w [How to check a PDF redaction](/en/guides/check-pdf-redaction). Informatyk może sprawdzić cały plik jednym poleceniem z pakietu Poppler, które wypisze każdy ciąg 11 cyfr, czyli tyle, ile ma PESEL:',
       },
       { pre: 'pdftotext protokol.pdf - | grep -E "[0-9]{11}"' },
 
@@ -360,7 +362,7 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    path: '/guides/check-pdf-redaction',
+    path: '/en/guides/check-pdf-redaction',
     lang: 'en',
     tool: 'redact',
     title: 'How to check a PDF redaction really removed the text',
@@ -371,7 +373,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-06',
     blocks: [
       {
-        p: 'A redacted PDF can look perfect and still contain everything you meant to hide. The black boxes are on the screen and on paper, but the text underneath may still be in the file, where anyone who receives it can copy it out. This guide shows how to test a redacted PDF in a few minutes, with tools you already have, and how our [Redact PDF](/redact-pdf) tool removes the text.',
+        p: 'A redacted PDF can look perfect and still contain everything you meant to hide. The black boxes are on the screen and on paper, but the text underneath may still be in the file, where anyone who receives it can copy it out. This guide shows how to test a redacted PDF in a few minutes, with tools you already have, and how our [Redact PDF](/en/redact-pdf) tool removes the text.',
       },
 
       { h2: 'Why a black box is often not a redaction' },
@@ -387,7 +389,7 @@ export const GUIDES: Guide[] = [
       { p: 'Always test the file you are about to send, not the original. Do every check: each one catches something the others miss.' },
       {
         ol: [
-          '**Copy and paste.** Open the file, select everything on the page (Ctrl+A or Cmd+A) and paste it into a plain text editor. Then drag a selection over just the blacked-out area and paste again. If the hidden words appear, they were only covered. If everything you paste comes out as nonsense rather than just the hidden part, this check cannot tell you anything until you deal with that: see [why PDF text pastes as gibberish](/guides/pdf-text-pastes-as-gibberish).',
+          '**Copy and paste.** Open the file, select everything on the page (Ctrl+A or Cmd+A) and paste it into a plain text editor. Then drag a selection over just the blacked-out area and paste again. If the hidden words appear, they were only covered. If everything you paste comes out as nonsense rather than just the hidden part, this check cannot tell you anything until you deal with that: see [why PDF text pastes as gibberish](/en/guides/pdf-text-pastes-as-gibberish).',
           '**Search.** Press Ctrl+F (Cmd+F) and search for part of each thing you removed: a surname, the last digits of an account number, a street name. Numbers are written in many ways, so try them with spaces, with dashes and without.',
           '**Extract the text with pdftotext.** pdftotext, part of Poppler (`poppler-utils` on most Linux systems, `poppler` in Homebrew on a Mac), prints all the text on the pages, including text hidden under boxes or drawn in white. If the commands below find nothing, that part is clean.',
           '**Comments, form fields and properties.** Open the comments panel and look through any form fields: copy-paste and pdftotext do not show their contents. Check the document properties in your viewer, or run `pdfinfo`, for the author, title and subject.',
@@ -407,14 +409,14 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        p: 'To see the whole answer at once instead of checking one item at a time, [Compare PDFs](/compare-pdf) will diff the original against the redacted file and list every line of text that disappeared. A page that was redacted properly loses its entire text layer, because the page is re-rendered as an image, so a page that reports only a few removed lines is a page the redaction did not reach. [How to compare two PDFs](/guides/compare-two-pdfs) covers reading the result.',
+        p: 'To see the whole answer at once instead of checking one item at a time, [Compare PDFs](/en/compare-pdf) will diff the original against the redacted file and list every line of text that disappeared. A page that was redacted properly loses its entire text layer, because the page is re-rendered as an image, so a page that reports only a few removed lines is a page the redaction did not reach. [How to compare two PDFs](/en/guides/compare-two-pdfs) covers reading the result.',
       },
       {
         p: 'If any check fails, go back to the original, redact again with a tool that removes the content, and test the new file. Do not try to fix the leaking file by drawing more boxes on it.',
       },
 
       { h2: 'How the Redact PDF tool does it' },
-      { p: '[Redact PDF](/redact-pdf) runs in your browser, on your device, so the file is never uploaded. This is what it does:' },
+      { p: '[Redact PDF](/en/redact-pdf) runs in your browser, on your device, so the file is never uploaded. This is what it does:' },
       {
         ul: [
           'You mark what to hide by typing text, by ready patterns (e-mail addresses, phone numbers, bank account numbers and IBANs, Polish NIP and PESEL numbers) or by dragging boxes on the page. The preview shows every box; click one to remove it.',
@@ -427,7 +429,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Limits to know about' },
       {
         ul: [
-          'Redacted pages become images, so their remaining text can no longer be selected or searched, and the file may get bigger. If you need searchable text, run the result through [OCR](/ocr-pdf).',
+          'Redacted pages become images, so their remaining text can no longer be selected or searched, and the file may get bigger. If you need searchable text, run the result through [OCR](/en/ocr-pdf).',
           'Search works on the text layer. A scan without OCR has none, so draw the boxes by hand. The same goes for signatures, stamps and photos.',
           'A phrase that the PDF stores in several separate pieces may not be found by search. Look through the preview of every page.',
           'Patterns match common formats: the phone pattern also catches other long numbers, and an unusually written number can be missed. Boxes are deliberately a little wider than the text.',
@@ -435,11 +437,11 @@ export const GUIDES: Guide[] = [
         ],
       },
       { p: 'Whichever tool you use, run the five checks on the result before you send it.' },
-      { p: '**[Open Redact PDF](/redact-pdf)**' },
+      { p: '**[Open Redact PDF](/en/redact-pdf)**' },
     ],
   },
   {
-    path: '/guides/sign-pdf-without-uploading',
+    path: '/en/guides/sign-pdf-without-uploading',
     lang: 'en',
     tool: 'sign',
     title: 'How to sign a PDF without uploading it',
@@ -450,14 +452,14 @@ export const GUIDES: Guide[] = [
     published: '2026-11-08',
     blocks: [
       {
-        p: 'You have a lease or a contract as a PDF and need to sign it and send it back. Most online signing sites want the document uploaded first, which puts a contract with your name, address and often bank details on someone else\'s server. This guide shows how to sign a PDF in your browser with our [Sign PDF](/sign-pdf) tool, where the file stays on your device, and what kind of signature you end up with.',
+        p: 'You have a lease or a contract as a PDF and need to sign it and send it back. Most online signing sites want the document uploaded first, which puts a contract with your name, address and often bank details on someone else\'s server. This guide shows how to sign a PDF in your browser with our [Sign PDF](/en/sign-pdf) tool, where the file stays on your device, and what kind of signature you end up with.',
       },
       { p: 'This is a practical guide, not legal advice. For a high-value contract, ask the other side or a lawyer what they accept.' },
 
       { h2: 'Sign the PDF step by step' },
       {
         ol: [
-          'Open [Sign PDF](/sign-pdf) and drop the file on **Choose PDF files to open in the editor**, or click it to pick the file. If you choose several PDFs, they are merged into one document. Your browser reads the file; nothing is sent to a server.',
+          'Open [Sign PDF](/en/sign-pdf) and drop the file on **Choose PDF files to open in the editor**, or click it to pick the file. If you choose several PDFs, they are merged into one document. Your browser reads the file; nothing is sent to a server.',
           'The **Add signature** dialog opens with the document. Pick a tab: **Draw** to sign with a mouse, touchpad or finger; **Type** to enter your name under **Your name** and choose one of three handwriting fonts; or **Upload image** to use a photo or scan of your signature on paper (click **Choose image**).',
           'For a drawn or typed signature, pick the **Ink** colour: black, dark blue or dark green. **Clear** empties the drawing pad. For an upload, keep **Remove white background** ticked so that only the ink lands on the page.',
           'Click **Insert signature**. It appears near the bottom right of the current page. With the **Select** tool, drag it into place and use the corner handle to resize it.',
@@ -500,7 +502,7 @@ export const GUIDES: Guide[] = [
       {
         ul: [
           'There is no certificate and no tamper seal. Anyone with a PDF editor can change the file after you sign it, or copy your signature image out of it. Send signed files only to the people who need them.',
-          'Existing text in the PDF cannot be edited. Fill blanks with **Text**, or use [Fill PDF form](/fill-pdf-form) first if the PDF has interactive fields.',
+          'Existing text in the PDF cannot be edited. Fill blanks with **Text**, or use [Fill PDF form](/en/fill-pdf-form) first if the PDF has interactive fields.',
         ],
       },
 
@@ -508,11 +510,11 @@ export const GUIDES: Guide[] = [
       {
         p: 'Nothing is uploaded, but two things stay in the browser on purpose: your last signature, so that **Use last** works, and the document itself, under **Recent documents** on the dashboard. On a shared computer, remove the document there with **Delete** and clear the site data in the browser settings to drop the signature, or work in a private window, which forgets both when closed.',
       },
-      { p: '**[Open Sign PDF](/sign-pdf)**' },
+      { p: '**[Open Sign PDF](/en/sign-pdf)**' },
     ],
   },
   {
-    path: '/guides/remove-pdf-metadata',
+    path: '/en/guides/remove-pdf-metadata',
     lang: 'en',
     tool: 'metadata',
     title: 'How to check and remove hidden PDF metadata',
@@ -523,7 +525,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-08',
     blocks: [
       {
-        p: 'Before you publish a PDF, send it to a client or submit it anonymously, look at what the file says about itself. Besides the pages, a PDF can carry the name of the person who wrote it, the program that made it, when it was created and last changed, and sometimes the title of an earlier draft. None of this shows on the page. This guide shows where that metadata sits, how to check it, and what our [Edit metadata](/edit-pdf-metadata) tool removes and what it leaves.',
+        p: 'Before you publish a PDF, send it to a client or submit it anonymously, look at what the file says about itself. Besides the pages, a PDF can carry the name of the person who wrote it, the program that made it, when it was created and last changed, and sometimes the title of an earlier draft. None of this shows on the page. This guide shows where that metadata sits, how to check it, and what our [Edit metadata](/en/edit-pdf-metadata) tool removes and what it leaves.',
       },
 
       { h2: 'Where the metadata lives' },
@@ -547,7 +549,7 @@ export const GUIDES: Guide[] = [
           '**In your PDF viewer.** Most viewers show the information dictionary under Document properties. Few show the XMP packet.',
           '**With pdfinfo.** pdfinfo, part of Poppler (`poppler-utils` on most Linux systems, `poppler` in Homebrew on a Mac), prints the information dictionary. With `-meta` it prints the XMP packet instead.',
           '**With exiftool.** `exiftool -a -G1` lists both, each entry labelled with its group, so you can see whether a value comes from the information dictionary or from XMP.',
-          '**In the tool.** Drop the file on [Edit metadata](/edit-pdf-metadata) to see the six text fields of the information dictionary. The tool does not show the dates or the XMP packet, so use pdfinfo or exiftool to read those. It removes the packet when you save, whether or not you could see it here.',
+          '**In the tool.** Drop the file on [Edit metadata](/en/edit-pdf-metadata) to see the six text fields of the information dictionary. The tool does not show the dates or the XMP packet, so use pdfinfo or exiftool to read those. It removes the packet when you save, whether or not you could see it here.',
         ],
       },
       { pre: 'pdfinfo report.pdf\npdfinfo -meta report.pdf\nexiftool -a -G1 report.pdf' },
@@ -555,7 +557,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Remove it with Edit metadata' },
       {
         ol: [
-          'Open [Edit metadata](/edit-pdf-metadata) and drop the PDF on **Choose a PDF**. It is read in your browser and not uploaded.',
+          'Open [Edit metadata](/en/edit-pdf-metadata) and drop the PDF on **Choose a PDF**. It is read in your browser and not uploaded.',
           'The **Title**, **Author**, **Subject**, **Keywords**, **Creator** and **Producer** fields show what the file contains. Edit any of them, or click **Clear all fields**.',
           'Click **Save metadata** and download the result. It keeps the original file name, so rename it if the name gives something away.',
         ],
@@ -574,13 +576,13 @@ export const GUIDES: Guide[] = [
         ul: [
           '**Creation and modification dates.** They stay as they are.',
           '**Comments, form field values and data inside embedded images.**',
-          '**Anything on the page.** A name in a header or footer is page text, not metadata. Remove it with [Redact PDF](/redact-pdf).',
+          '**Anything on the page.** A name in a header or footer is page text, not metadata. Remove it with [Redact PDF](/en/redact-pdf).',
         ],
       },
 
       { h2: 'When the dates or per-page metadata must go too' },
       {
-        p: 'Build a new file from the pages. In [Split PDF](/split-pdf), choose **By ranges**, type `1-` under **Ranges** and click **Split PDF**. You get one file with every page, named like `report_p1-12.pdf`.',
+        p: 'Build a new file from the pages. In [Split PDF](/en/split-pdf), choose **By ranges**, type `1-` under **Ranges** and click **Split PDF**. You get one file with every page, named like `report_p1-12.pdf`.',
       },
       {
         p: 'That file is made from scratch. The old information dictionary and any document XMP packet are not copied, both dates are set to the moment of the split, and Creator and Producer name pdf-lib, the library the tool uses. Run the result through Edit metadata if you want those two fields empty as well. Comments and any metadata attached to single pages or images travel with the pages. Bookmarks and interactive form fields of the original are not carried over, so do this on the final version.',
@@ -595,11 +597,11 @@ export const GUIDES: Guide[] = [
           'The file name is neutral.',
         ],
       },
-      { p: '**[Open Edit metadata](/edit-pdf-metadata)**' },
+      { p: '**[Open Edit metadata](/en/edit-pdf-metadata)**' },
     ],
   },
   {
-    path: '/guides/compress-pdf-for-email',
+    path: '/en/guides/compress-pdf-for-email',
     lang: 'en',
     tool: 'compress',
     title: 'How to compress a PDF to send it by e-mail',
@@ -610,7 +612,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-08',
     blocks: [
       {
-        p: 'A PDF that is too big to attach is usually full of scanned pages or large photos. Compression helps a lot with those, and very little with a document that is mostly text. This guide explains what to expect, how to use our [Compress PDF](/compress-pdf) tool, which runs in your browser so the document is never uploaded, and what to do when compression is the wrong answer.',
+        p: 'A PDF that is too big to attach is usually full of scanned pages or large photos. Compression helps a lot with those, and very little with a document that is mostly text. This guide explains what to expect, how to use our [Compress PDF](/en/compress-pdf) tool, which runs in your browser so the document is never uploaded, and what to do when compression is the wrong answer.',
       },
 
       { h2: 'How big is too big' },
@@ -649,7 +651,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Step by step' },
       {
         ol: [
-          'Open [Compress PDF](/compress-pdf) and drop the file on **Choose a PDF**.',
+          'Open [Compress PDF](/en/compress-pdf) and drop the file on **Choose a PDF**.',
           'Under **Level**, choose **Lossless** for a text document or **Recommended** for a scan.',
           'Click **Compress**. The tool shows the size before and after and how much smaller the result is. If the file did not get smaller, it says so: try a stronger level, or keep the original.',
           'Open the result and zoom in on the smallest print, a signature or a stamp. If it is hard to read, go back and try **Light**.',
@@ -660,14 +662,14 @@ export const GUIDES: Guide[] = [
 
       { h2: 'Make a compressed scan searchable again' },
       {
-        p: 'If the recipient needs to search or copy the text, run the compressed file through [OCR](/ocr-pdf), which recognises Polish and English text and adds it back as a searchable layer. Check the size again afterwards.',
+        p: 'If the recipient needs to search or copy the text, run the compressed file through [OCR](/en/ocr-pdf), which recognises Polish and English text and adds it back as a searchable layer. Check the size again afterwards.',
       },
 
       { h2: 'When compression is the wrong tool' },
       {
         ul: [
-          '**Photos of paper documents.** Shrink and resize the photos first with [Compress & convert images](/image-converter), then put them into one file with [Images to PDF](/image-to-pdf). Images to PDF keeps the pixel size of each photo, so smaller photos give a smaller PDF. If the pages come out rotated, [why phone photos come out sideways in a PDF](/guides/photos-sideways-in-pdf) explains what causes it.',
-          '**Only some pages matter.** Send just those: in [Split PDF](/split-pdf), choose **Extract pages** and list them. Picking **By ranges** instead gives you one file per range rather than one file in total, which [how to split a PDF](/guides/split-pdf-without-uploading) goes into.',
+          '**Photos of paper documents.** Shrink and resize the photos first with [Compress & convert images](/en/image-converter), then put them into one file with [Images to PDF](/en/image-to-pdf). Images to PDF keeps the pixel size of each photo, so smaller photos give a smaller PDF. If the pages come out rotated, [why phone photos come out sideways in a PDF](/en/guides/photos-sideways-in-pdf) explains what causes it.',
+          '**Only some pages matter.** Send just those: in [Split PDF](/en/split-pdf), choose **Extract pages** and list them. Picking **By ranges** instead gives you one file per range rather than one file in total, which [how to split a PDF](/en/guides/split-pdf-without-uploading) goes into.',
           '**It is still too big.** Split the document into parts and send several e-mails, or share it through a storage service you already use. Keep in mind that a shared link puts the file on that service.',
         ],
       },
@@ -678,10 +680,10 @@ export const GUIDES: Guide[] = [
           'It cannot recompress the photos inside a PDF and keep the text. The image levels turn whole pages into pictures, and Lossless leaves images as they are.',
           'It does not remove or shrink embedded fonts.',
           'There is no target size: you pick a level and see the result.',
-          'A password-protected PDF has to be unlocked first with [Unlock PDF](/unlock-pdf). Protect the compressed file again with [Protect PDF](/protect-pdf) if it needs a password.',
+          'A password-protected PDF has to be unlocked first with [Unlock PDF](/en/unlock-pdf). Protect the compressed file again with [Protect PDF](/en/protect-pdf) if it needs a password.',
         ],
       },
-      { p: '**[Open Compress PDF](/compress-pdf)**' },
+      { p: '**[Open Compress PDF](/en/compress-pdf)**' },
     ],
   },
   {
@@ -774,7 +776,7 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    path: '/guides/heic-to-jpg-without-uploading',
+    path: '/en/guides/heic-to-jpg-without-uploading',
     lang: 'en',
     tool: 'heic-to-jpg',
     title: 'How to convert HEIC to JPG without uploading',
@@ -785,7 +787,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-08',
     blocks: [
       {
-        p: 'Photos from an iPhone or iPad are often HEIC files. They take less space than JPG, but plenty of websites, forms and older computers refuse them. Most online converters want the photos uploaded first, and personal photos tend to show your home, your family or the documents you photographed. This guide shows how to convert them in your browser with our [HEIC to JPG](/heic-to-jpg) tool, where the photos stay on your device, and how to stop the problem at the source.',
+        p: 'Photos from an iPhone or iPad are often HEIC files. They take less space than JPG, but plenty of websites, forms and older computers refuse them. Most online converters want the photos uploaded first, and personal photos tend to show your home, your family or the documents you photographed. This guide shows how to convert them in your browser with our [HEIC to JPG](/en/heic-to-jpg) tool, where the photos stay on your device, and how to stop the problem at the source.',
       },
 
       { h2: 'What HEIC is' },
@@ -798,7 +800,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Convert HEIC to JPG step by step' },
       {
         ol: [
-          'Open [HEIC to JPG](/heic-to-jpg) and drop the photos on **Add images**, or click it to choose them. You can add as many as you like, and add more later. The files are read by your browser; nothing is sent to a server.',
+          'Open [HEIC to JPG](/en/heic-to-jpg) and drop the photos on **Add images**, or click it to choose them. You can add as many as you like, and add more later. The files are read by your browser; nothing is sent to a server.',
           'Under **Save as**, keep **JPG**. **WebP** gives smaller files that all modern browsers open, and **PNG** is lossless but larger.',
           'Set the quality slider, which starts at **Quality 80%** and goes from 30% to 100%. The hint next to it says 70 to 85% usually looks the same as the original. PNG has no quality setting.',
           'To make the photos smaller, tick **Shrink images larger than** under **Resize** and fill in **Max width (px)** and **Max height (px)**. Both start at 1920. Larger photos are scaled down to fit that box with their proportions kept; smaller ones keep their size.',
@@ -806,7 +808,7 @@ export const GUIDES: Guide[] = [
           'With one photo, click **Download**. With several, **Download all (.zip)** saves them in `images.zip`, or download them one by one from the list. Each file keeps its name, with `.jpg` in place of `.heic`. The tool also shows the total size before and after.',
         ],
       },
-      { p: 'The same converter is also on the [Compress & convert images](/image-converter) page, and it takes JPG, PNG, WebP and GIF too. To put HEIC photos straight into a PDF, use [Images to PDF](/image-to-pdf).' },
+      { p: 'The same converter is also on the [Compress & convert images](/en/image-converter) page, and it takes JPG, PNG, WebP and GIF too. To put HEIC photos straight into a PDF, use [Images to PDF](/en/image-to-pdf).' },
 
       { h2: 'What happens to the photo and its data' },
       {
@@ -839,11 +841,11 @@ export const GUIDES: Guide[] = [
           '**On a Mac.** Open the photo in Photos or Preview, choose File, then Export, and pick JPEG or PNG.',
         ],
       },
-      { p: '**[Open HEIC to JPG](/heic-to-jpg)**' },
+      { p: '**[Open HEIC to JPG](/en/heic-to-jpg)**' },
     ],
   },
   {
-    path: '/guides/pdf-to-word-without-uploading',
+    path: '/en/guides/pdf-to-word-without-uploading',
     lang: 'en',
     tool: 'pdf-to-word',
     title: 'How to convert PDF to Word without uploading',
@@ -854,7 +856,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-08',
     blocks: [
       {
-        p: 'You have a PDF and need to change its text in Word: a contract to reuse, an old CV, a report someone sent without the original file. Online converters usually upload the document first. Our [PDF to Word](/pdf-to-word) tool runs in your browser, so the file stays on your device. It is also a basic converter, and this guide is honest about what that means: you get the text to edit, not a copy of the layout.',
+        p: 'You have a PDF and need to change its text in Word: a contract to reuse, an old CV, a report someone sent without the original file. Online converters usually upload the document first. Our [PDF to Word](/en/pdf-to-word) tool runs in your browser, so the file stays on your device. It is also a basic converter, and this guide is honest about what that means: you get the text to edit, not a copy of the layout.',
       },
 
       { h2: 'Why PDF to Word is hard' },
@@ -870,7 +872,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Convert step by step' },
       {
         ol: [
-          'Open [PDF to Word](/pdf-to-word) and drop the file on **Choose a PDF**. It is read in your browser, not uploaded. A password-protected PDF has to be unlocked first with [Unlock PDF](/unlock-pdf).',
+          'Open [PDF to Word](/en/pdf-to-word) and drop the file on **Choose a PDF**. It is read in your browser, not uploaded. A password-protected PDF has to be unlocked first with [Unlock PDF](/en/unlock-pdf).',
           'Click **Convert to Word**.',
           'Click **Download**. The file keeps the original name, with `.docx` at the end.',
           'Open it in Word, LibreOffice or another editor and compare it with the PDF before you send it on.',
@@ -904,19 +906,19 @@ export const GUIDES: Guide[] = [
 
       { h2: 'Scanned PDFs need OCR first' },
       {
-        p: 'A scan is a picture of text, so there is no text for the converter to read and the Word file comes out empty. Run the scan through [OCR](/ocr-pdf) first: it recognises Polish and English text and adds it to the PDF as an invisible layer. Click **Recognise text**, download the result and convert that file. OCR mistakes come along into Word, so compare names, numbers and amounts with the scan.',
+        p: 'A scan is a picture of text, so there is no text for the converter to read and the Word file comes out empty. Run the scan through [OCR](/en/ocr-pdf) first: it recognises Polish and English text and adds it to the PDF as an invisible layer. Click **Recognise text**, download the result and convert that file. OCR mistakes come along into Word, so compare names, numbers and amounts with the scan.',
       },
 
       { h2: 'When another route is better' },
       {
         ul: [
-          '**You only need the text.** [PDF to text](/pdf-to-text) pulls it out to copy or save as a .txt file.',
-          '**You need a small change and the same layout.** Edit the PDF itself in [Edit PDF](/edit-pdf). Existing text cannot be rewritten in place, but you can cover it with **Whiteout** and type new text on top.',
+          '**You only need the text.** [PDF to text](/en/pdf-to-text) pulls it out to copy or save as a .txt file.',
+          '**You need a small change and the same layout.** Edit the PDF itself in [Edit PDF](/en/edit-pdf). Existing text cannot be rewritten in place, but you can cover it with **Whiteout** and type new text on top.',
           '**The layout matters.** Ask the sender for the original .docx. Microsoft says its own conversion in Word "works best with files that are mostly text", and that a page made mostly of charts or graphics "might show up as an image".',
-          '**You are going the other way.** [Word to PDF](/word-to-pdf) turns a .docx into a PDF.',
+          '**You are going the other way.** [Word to PDF](/en/word-to-pdf) turns a .docx into a PDF.',
         ],
       },
-      { p: '**[Open PDF to Word](/pdf-to-word)**' },
+      { p: '**[Open PDF to Word](/en/pdf-to-word)**' },
     ],
   },
   {
@@ -1240,7 +1242,7 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    path: '/guides/does-a-pdf-tool-upload-your-files',
+    path: '/en/guides/does-a-pdf-tool-upload-your-files',
     lang: 'en',
     tool: 'redact',
     title: 'How to check if a PDF tool uploads your files',
@@ -1325,7 +1327,7 @@ export const GUIDES: Guide[] = [
 
       { h2: 'Now try it on us' },
       {
-        p: 'Run all three checks on this site. Open [Redact PDF](/redact-pdf), or any other tool here, and watch the Network panel while you work: the page and its scripts load, and then your file produces no upload. Go offline first and the tools still run, because the code is already in your browser and the document never needs to travel.',
+        p: 'Run all three checks on this site. Open [Redact PDF](/en/redact-pdf), or any other tool here, and watch the Network panel while you work: the page and its scripts load, and then your file produces no upload. Go offline first and the tools still run, because the code is already in your browser and the document never needs to travel.',
       },
       {
         p: 'The header on every page here is `default-src \'self\'`, `connect-src \'self\' data: blob:` and `form-action \'none\'`. The `data:` and `blob:` entries deserve explaining rather than glossing over, because they are not servers. A `blob:` URL points at something held in your browser\'s own memory ([MDN](' + MDN_BLOB_URL + ')), which is how a finished file is handed to you as a download. No other site appears in that list, and `form-action \'none\'` means no form on the page can submit anywhere at all.',
@@ -1333,11 +1335,11 @@ export const GUIDES: Guide[] = [
       {
         p: 'That is the whole point of writing this down. You should not have to believe a sentence on a landing page, ours included, when the browser you already have will show you the answer.',
       },
-      { p: '**[Open Redact PDF](/redact-pdf)**' },
+      { p: '**[Open Redact PDF](/en/redact-pdf)**' },
     ],
   },
   {
-    path: '/guides/merge-pdf-without-uploading',
+    path: '/en/guides/merge-pdf-without-uploading',
     lang: 'en',
     tool: 'merge',
     title: 'How to merge PDFs without uploading them',
@@ -1348,7 +1350,7 @@ export const GUIDES: Guide[] = [
     published: '2026-11-09',
     blocks: [
       {
-        p: 'Combining files is the most ordinary thing anyone does to a PDF, and the one most often done by dropping a stack of documents onto a stranger\'s server. It does not need a server. [Merge PDF](/merge-pdf) joins the files in your browser, and the documents never leave your computer.',
+        p: 'Combining files is the most ordinary thing anyone does to a PDF, and the one most often done by dropping a stack of documents onto a stranger\'s server. It does not need a server. [Merge PDF](/en/merge-pdf) joins the files in your browser, and the documents never leave your computer.',
       },
       {
         p: 'The second half of this guide is the part you will not find on most PDF sites: a merge quietly throws things away, and it is worth knowing what before you merge the only copy of something.',
@@ -1357,7 +1359,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Merging, step by step' },
       {
         ol: [
-          'Open [Merge PDF](/merge-pdf) and drop your files on **Add PDF files**. The hint under it, "Drop several files, then put them in order", is the whole workflow.',
+          'Open [Merge PDF](/en/merge-pdf) and drop your files on **Add PDF files**. The hint under it, "Drop several files, then put them in order", is the whole workflow.',
           'Add as many as you like, in as many goes as you like. Each batch is added to the list rather than replacing it, so you can drag in a few files, find another, and drop that in too.',
           'Put them in order. Every row is numbered and has a **Move up** and a **Move down** button, and an X to drop a file you added by mistake. The number on the left is the order of the finished document.',
           'Click **Merge 2 files** (the button counts your files, so it says 3, 4 or 12 as you add them). It stays disabled until there are at least two files, since merging one file is not a merge.',
@@ -1365,7 +1367,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        p: 'If one of the files is password-protected the tool stops and tells you so, rather than producing a damaged document. Remove the password first with [Unlock PDF](/unlock-pdf), using the password you already know, and then merge.',
+        p: 'If one of the files is password-protected the tool stops and tells you so, rather than producing a damaged document. Remove the password first with [Unlock PDF](/en/unlock-pdf), using the password you already know, and then merge.',
       },
 
       { h2: 'What a merge keeps, and what it drops' },
@@ -1406,12 +1408,12 @@ export const GUIDES: Guide[] = [
       { h2: 'After the merge' },
       {
         ul: [
-          'Too large to e-mail? [Compress PDF](/compress-pdf) will shrink it, and the [guide to e-mail size limits](/guides/compress-pdf-for-email) explains which setting keeps your text selectable.',
-          'Wrong order, or a page to remove? [Organize pages](/organize-pdf-pages) works visually on the merged file.',
-          'Need one part back out again? [Split PDF](/split-pdf) is the reverse operation, and [how to split a PDF](/guides/split-pdf-without-uploading) explains why **By ranges** and **Extract pages** hand you back different numbers of files.',
-          'Want a title and author on the finished document? [Edit metadata](/edit-pdf-metadata) fills in the properties the merge left blank.',
-          'Need page numbers running across the whole bundle? [Add page numbers](/add-page-numbers-to-pdf) does that after merging, which is the right order to do it in.',
-          'Still to be signed? Sign the merged file rather than the parts, because a signature applied before the merge does not survive it. [Sign PDF](/sign-pdf) does that in the browser, and [how to sign a PDF without uploading it](/guides/sign-pdf-without-uploading) sets out what such a signature is worth.',
+          'Too large to e-mail? [Compress PDF](/en/compress-pdf) will shrink it, and the [guide to e-mail size limits](/en/guides/compress-pdf-for-email) explains which setting keeps your text selectable.',
+          'Wrong order, or a page to remove? [Organize pages](/en/organize-pdf-pages) works visually on the merged file.',
+          'Need one part back out again? [Split PDF](/en/split-pdf) is the reverse operation, and [how to split a PDF](/en/guides/split-pdf-without-uploading) explains why **By ranges** and **Extract pages** hand you back different numbers of files.',
+          'Want a title and author on the finished document? [Edit metadata](/en/edit-pdf-metadata) fills in the properties the merge left blank.',
+          'Need page numbers running across the whole bundle? [Add page numbers](/en/add-page-numbers-to-pdf) does that after merging, which is the right order to do it in.',
+          'Still to be signed? Sign the merged file rather than the parts, because a signature applied before the merge does not survive it. [Sign PDF](/en/sign-pdf) does that in the browser, and [how to sign a PDF without uploading it](/en/guides/sign-pdf-without-uploading) sets out what such a signature is worth.',
         ],
       },
 
@@ -1420,9 +1422,9 @@ export const GUIDES: Guide[] = [
         p: 'The files people merge are rarely trivial: a contract and its annexes, a tender submission, a year of invoices for an accountant, a patient\'s records. Merging them online means handing that whole bundle to a company you have not met, which is a decision about someone else\'s data as much as your own.',
       },
       {
-        p: 'You do not have to take our word for where the files go. Our [guide to checking whether a PDF tool uploads your files](/guides/does-a-pdf-tool-upload-your-files) shows how to watch the network panel, and how to run this tool with your internet connection switched off. It still works, which is the only convincing answer.',
+        p: 'You do not have to take our word for where the files go. Our [guide to checking whether a PDF tool uploads your files](/en/guides/does-a-pdf-tool-upload-your-files) shows how to watch the network panel, and how to run this tool with your internet connection switched off. It still works, which is the only convincing answer.',
       },
-      { p: '**[Open Merge PDF](/merge-pdf)**' },
+      { p: '**[Open Merge PDF](/en/merge-pdf)**' },
     ],
   },
   {
@@ -2300,7 +2302,7 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    path: '/guides/pdf-text-pastes-as-gibberish',
+    path: '/en/guides/pdf-text-pastes-as-gibberish',
     lang: 'en',
     tool: 'pdf-to-text',
     title: 'Why PDF text pastes as gibberish, and how to fix it',
@@ -2316,14 +2318,14 @@ export const GUIDES: Guide[] = [
 
       { h2: 'Tell the four cases apart first' },
       {
-        p: 'Open [PDF to text](/pdf-to-text), drop the file on it and click **Extract text**. What comes back names the problem:',
+        p: 'Open [PDF to text](/en/pdf-to-text), drop the file on it and click **Extract text**. What comes back names the problem:',
       },
       {
         ul: [
           '**Readable text.** The PDF is fine. Whatever mangled your paste was the program you pasted into, or a selection that caught a different part of the page. Copy it from here instead and you are done.',
           '**"No text found".** There is no text in the file at all. It is a scan or a photograph, so the page is pixels and nothing else. The tool says as much and points you at OCR. The fix below is yours.',
           '**The same gibberish.** The file does have a text layer, but the part of it that records which letter each code stands for is missing or wrong. This is the case the rest of this guide is about.',
-          '**The file will not open.** It needs a password before anything can read it, and no tool gets past that without the password. [Unlock PDF](/unlock-pdf) removes a password from a file you can already open; it does not guess one.',
+          '**The file will not open.** It needs a password before anything can read it, and no tool gets past that without the password. [Unlock PDF](/en/unlock-pdf) removes a password from a file you can already open; it does not guess one.',
         ],
       },
       {
@@ -2346,7 +2348,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Why the usual advice does not fix it' },
       {
         ul: [
-          '**Convert the PDF to Word.** The converter reads the same text layer through the same broken table and writes the same gibberish into the .docx. Our [PDF to Word](/pdf-to-word) is no exception, and nor is Word\'s own PDF import. It only seems to work when the converter quietly gives up on the text layer and recognises the pixels instead, which is the real fix wearing a disguise.',
+          '**Convert the PDF to Word.** The converter reads the same text layer through the same broken table and writes the same gibberish into the .docx. Our [PDF to Word](/en/pdf-to-word) is no exception, and nor is Word\'s own PDF import. It only seems to work when the converter quietly gives up on the text layer and recognises the pixels instead, which is the real fix wearing a disguise.',
           '**Change the font in Acrobat.** Editing the text changes what gets drawn on the page. It does not write the missing table, and it wants a paid licence before you can even try.',
           '**Open it in another reader.** Every reader reads the same entry in the same file. One will occasionally guess the letters from the names the font gives its glyphs and so appear to fix it, which is why this works for one person and not the next. A guess that sometimes lands is not a fix.',
           '**Print it to a new PDF, then run OCR.** This one genuinely works, and it is worth seeing why: printing throws the text layer away and leaves pixels behind, and OCR then builds a correct layer from those pixels. The steps below do the same thing without the detour.',
@@ -2359,7 +2361,7 @@ export const GUIDES: Guide[] = [
       },
       {
         ol: [
-          'Open [OCR: searchable PDF](/ocr-pdf) and add the file.',
+          'Open [OCR: searchable PDF](/en/ocr-pdf) and add the file.',
           'Untick **Skip pages that already contain text**. It is ticked by default, and on this file it is the whole problem. The tool counts the characters on each page and skips any page carrying more than twenty of them. Your pages are full of characters. They are the wrong characters, but a count cannot tell, so every page is skipped and nothing happens. You will see it say so, naming the pages: "Skipped 12 page(s) that already had text".',
           'Set **Language** to match the document. The choices are **Polish + English**, which is the default, **Polish**, and **English**. Recognition leans heavily on what words look like in a given language, so the wrong setting costs real accuracy.',
           'Leave **Quality** on **Accurate** unless the print is small, where **Small print** is worth the wait. The settings render the page at 200, 300 and 400 dots per inch before reading it, so each step up is slower.',
@@ -2377,15 +2379,15 @@ export const GUIDES: Guide[] = [
       },
       {
         ol: [
-          'Open [Compress PDF](/compress-pdf) and pick any **Level** except **Lossless**. Those levels turn each page into an image, which is normally the cost and is here the point: the broken text layer goes with it. **Lossless** only repacks the file and would leave the layer exactly where it is.',
-          'Run the result through [OCR: searchable PDF](/ocr-pdf). With no text left on the pages, the skip setting no longer changes anything, although there is no harm in leaving it unticked.',
+          'Open [Compress PDF](/en/compress-pdf) and pick any **Level** except **Lossless**. Those levels turn each page into an image, which is normally the cost and is here the point: the broken text layer goes with it. **Lossless** only repacks the file and would leave the layer exactly where it is.',
+          'Run the result through [OCR: searchable PDF](/en/ocr-pdf). With no text left on the pages, the skip setting no longer changes anything, although there is no harm in leaving it unticked.',
         ],
       },
       {
         p: 'There is a price. The pages become pictures, so the text is only ever as sharp as the rendering, and the file may come out larger or smaller depending on what was in it. For a document you only need to read from, copying the recognised text is simpler and gives up nothing.',
       },
       {
-        p: 'If what you want is a document you can edit rather than one you can search, [PDF to Word](/pdf-to-word) builds a `.docx` instead, and [how to convert PDF to Word without uploading it](/guides/pdf-to-word-without-uploading) sets out what the conversion keeps and what it drops.',
+        p: 'If what you want is a document you can edit rather than one you can search, [PDF to Word](/en/pdf-to-word) builds a `.docx` instead, and [how to convert PDF to Word without uploading it](/en/guides/pdf-to-word-without-uploading) sets out what the conversion keeps and what it drops.',
       },
 
       { h2: 'What recognition will not do' },
@@ -2399,12 +2401,12 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        p: '**[Open PDF to text](/pdf-to-text)** to find out which case you have, then **[OCR: searchable PDF](/ocr-pdf)** to fix it.',
+        p: '**[Open PDF to text](/en/pdf-to-text)** to find out which case you have, then **[OCR: searchable PDF](/en/ocr-pdf)** to fix it.',
       },
     ],
   },
   {
-    path: '/guides/photos-sideways-in-pdf',
+    path: '/en/guides/photos-sideways-in-pdf',
     lang: 'en',
     tool: 'images-to-pdf',
     title: 'Why phone photos come out sideways in a PDF',
@@ -2431,18 +2433,18 @@ export const GUIDES: Guide[] = [
         p: 'A PDF page has no orientation tag. When a tool puts your photo into a PDF it either applies the rotation on the way in or it does not, and whichever it chose is now what everybody sees. No note is left behind for the reader to honour or ignore. The photo was ambiguous; the PDF is not.',
       },
       {
-        p: 'That is also why rotating the pages afterwards is a poor repair. It does fix how the page looks, because a PDF page can carry its own rotation. But you are doing it a page at a time across a mixed batch, each page keeps the proportions it was handed, so you end up with a document of inconsistent page shapes, and you will be doing it again next time. [Rotate PDF](/rotate-pdf) is there for when you need it, which should be seldom.',
+        p: 'That is also why rotating the pages afterwards is a poor repair. It does fix how the page looks, because a PDF page can carry its own rotation. But you are doing it a page at a time across a mixed batch, each page keeps the proportions it was handed, so you end up with a document of inconsistent page shapes, and you will be doing it again next time. [Rotate PDF](/en/rotate-pdf) is there for when you need it, which should be seldom.',
       },
 
       { h2: 'Make the PDF with the rotation already applied' },
       {
-        p: '[Images to PDF](/image-to-pdf) reads the orientation tag as it decodes each photo, so the problem never arises. The browser function it uses to decode an image takes an option for precisely this, which MDN documents as orienting the image according to its EXIF orientation metadata where present ([createImageBitmap](' +
+        p: '[Images to PDF](/en/image-to-pdf) reads the orientation tag as it decodes each photo, so the problem never arises. The browser function it uses to decode an image takes an option for precisely this, which MDN documents as orienting the image according to its EXIF orientation metadata where present ([createImageBitmap](' +
           MDN_CREATE_IMAGE_BITMAP +
           ')), and that is the setting the tool asks for.',
       },
       {
         ol: [
-          'Open [Images to PDF](/image-to-pdf) and drop the photos on **Add images**. They become pages in the order of the list, one image per page, so get the order right before you build it.',
+          'Open [Images to PDF](/en/image-to-pdf) and drop the photos on **Add images**. They become pages in the order of the list, one image per page, so get the order right before you build it.',
           'Choose **Page size**. **A4** and **Letter** give every page the same size and fit each photo inside it. **Same as image** makes each page exactly as big as its photo plus the margin, which keeps the photos at full size but leaves you with a PDF of mixed page shapes.',
           'With **A4** or **Letter**, choose **Orientation**. **Auto** turns the page sideways whenever the photo is wider than it is tall, judged after the rotation has been applied, which is what you want for a mixed batch of pages and receipts. **Portrait** and **Landscape** force the issue. With **Same as image** there is nothing to decide and the option is not shown.',
           'Choose **Margin**: **None**, **Small** or **Large**, which are 0, 20 and 50 points, or roughly 0, 7 and 18 millimetres.',
@@ -2454,7 +2456,7 @@ export const GUIDES: Guide[] = [
       {
         ul: [
           'The photo is decoded with its orientation already applied, so the picture the tool is holding is the right way up before anything else happens.',
-          'It is then drawn into a fresh image and encoded again. PNG files stay PNG; everything else, iPhone HEIC included, becomes JPEG at 90% quality. There is no quality setting on this page. If you want the JPEGs themselves rather than a PDF, [how to convert HEIC to JPG without uploading](/guides/heic-to-jpg-without-uploading) covers that conversion on its own.',
+          'It is then drawn into a fresh image and encoded again. PNG files stay PNG; everything else, iPhone HEIC included, becomes JPEG at 90% quality. There is no quality setting on this page. If you want the JPEGs themselves rather than a PDF, [how to convert HEIC to JPG without uploading](/en/guides/heic-to-jpg-without-uploading) covers that conversion on its own.',
           'Because the picture is written out fresh, the rotation now lives in the pixels themselves and there is no tag left for anything to ignore. The EXIF block does not survive the trip either, so the location, the camera model and the date the photo was taken do not travel into the PDF. Keep your originals if you need any of that.',
           'Sizes assume 96 pixels to the inch, so a photo 1920 pixels wide is 1440 points, about 508 millimetres, before it is scaled to fit the page you chose.',
         ],
@@ -2462,7 +2464,7 @@ export const GUIDES: Guide[] = [
 
       { h2: 'A PDF that is already sideways' },
       {
-        p: 'If the file exists and you still have the photos, rebuild it. That takes less time than repairing it and the pages come out consistent. If the photos are gone, [Rotate PDF](/rotate-pdf) turns pages by 90, 180 or 270 degrees and lets you pick which ones rather than turning the lot. To make the result searchable afterwards, run it through [OCR: searchable PDF](/ocr-pdf), which will also take the photographs directly and build the PDF itself.',
+        p: 'If the file exists and you still have the photos, rebuild it. That takes less time than repairing it and the pages come out consistent. If the photos are gone, [Rotate PDF](/en/rotate-pdf) turns pages by 90, 180 or 270 degrees and lets you pick which ones rather than turning the lot. To make the result searchable afterwards, run it through [OCR: searchable PDF](/en/ocr-pdf), which will also take the photographs directly and build the PDF itself.',
       },
 
       { h2: 'Limits' },
@@ -2470,16 +2472,16 @@ export const GUIDES: Guide[] = [
         ul: [
           'One image per page. There is no option to put two photos on a sheet.',
           'JPEG encoding is lossy. At 90% a photographed page looks the same, but it is not the original bit for bit.',
-          'A batch of full resolution phone photos makes a heavy PDF. Send them through [Compress & convert images](/image-converter) first if the file has to go by e-mail, or [Compress PDF](/compress-pdf) afterwards.',
+          'A batch of full resolution phone photos makes a heavy PDF. Send them through [Compress & convert images](/en/image-converter) first if the file has to go by e-mail, or [Compress PDF](/en/compress-pdf) afterwards.',
           'It all runs in your browser, so nothing is uploaded, and a large batch on an old phone will take its time.',
           'The tool does not straighten a photo taken at an angle, crop the page out of the table it is lying on, or even out the lighting. For something that has to look scanned, photograph it square on in flat light.',
         ],
       },
-      { p: '**[Open Images to PDF](/image-to-pdf)**' },
+      { p: '**[Open Images to PDF](/en/image-to-pdf)**' },
     ],
   },
   {
-    path: '/guides/remove-pdf-password',
+    path: '/en/guides/remove-pdf-password',
     lang: 'en',
     tool: 'unlock',
     title: 'How to remove a password from a PDF you can open',
@@ -2510,7 +2512,7 @@ export const GUIDES: Guide[] = [
       { h2: 'If it asks for a password before it opens' },
       {
         ol: [
-          'Open [Unlock PDF](/unlock-pdf) and add the file. Note that it does not show you a preview or a page count first. It cannot: until the password arrives there is nothing readable in there to count.',
+          'Open [Unlock PDF](/en/unlock-pdf) and add the file. Note that it does not show you a preview or a page count first. It cannot: until the password arrives there is nothing readable in there to count.',
           'Type the password into **Password**.',
           'Click **Unlock PDF**. Back comes `yourfile_unlocked.pdf`, the same document with the encryption removed, which opens anywhere without a prompt.',
         ],
@@ -2528,24 +2530,24 @@ export const GUIDES: Guide[] = [
       {
         ul: [
           'It does not guess, crack or recover a password. If you do not know it, nothing here helps, and that is encryption doing its job rather than a gap in the tool.',
-          'A copy-protection flag on an unencrypted PDF is a third thing again, and it needs no unlocking. A flag is a request, not a lock: the text sits in the file exactly as in any other PDF, and whether a program honours it is that program\'s decision. [PDF to text](/pdf-to-text) will read such a file straight away.',
+          'A copy-protection flag on an unencrypted PDF is a third thing again, and it needs no unlocking. A flag is a request, not a lock: the text sits in the file exactly as in any other PDF, and whether a program honours it is that program\'s decision. [PDF to text](/en/pdf-to-text) will read such a file straight away.',
           'Certificate based encryption, where the key lives in a digital ID rather than in a password, is not supported.',
-          'Nothing else about the document changes. Pages, text, form fields and document properties come through as they were, which includes [metadata you might not want to pass on](/guides/remove-pdf-metadata).',
+          'Nothing else about the document changes. Pages, text, form fields and document properties come through as they were, which includes [metadata you might not want to pass on](/en/guides/remove-pdf-metadata).',
         ],
       },
 
       { h2: 'Why this is the wrong file to upload' },
       {
-        p: 'A document someone thought worth encrypting is the last one to hand to a stranger\'s server, and the usual online unlockers ask for the document and the password together. A bank statement carries the account number, the balance, the address and every counterparty you paid that month. Nothing is uploaded here: the file is read, decrypted and handed back inside the browser tab, and that is checkable rather than promised. Open the network panel before you start and watch that no request leaves, which is what [how to check if a PDF tool uploads your files](/guides/does-a-pdf-tool-upload-your-files) walks through.',
+        p: 'A document someone thought worth encrypting is the last one to hand to a stranger\'s server, and the usual online unlockers ask for the document and the password together. A bank statement carries the account number, the balance, the address and every counterparty you paid that month. Nothing is uploaded here: the file is read, decrypted and handed back inside the browser tab, and that is checkable rather than promised. Open the network panel before you start and watch that no request leaves, which is what [how to check if a PDF tool uploads your files](/en/guides/does-a-pdf-tool-upload-your-files) walks through.',
       },
       {
-        p: 'Going the other way, [how to password-protect a PDF](/guides/password-protect-pdf) covers setting a password and what the permissions really allow.',
+        p: 'Going the other way, [how to password-protect a PDF](/en/guides/password-protect-pdf) covers setting a password and what the permissions really allow.',
       },
-      { p: '**[Open Unlock PDF](/unlock-pdf)**' },
+      { p: '**[Open Unlock PDF](/en/unlock-pdf)**' },
     ],
   },
   {
-    path: '/guides/password-protect-pdf',
+    path: '/en/guides/password-protect-pdf',
     lang: 'en',
     tool: 'protect',
     title: 'How to password-protect a PDF without uploading it',
@@ -2578,7 +2580,7 @@ export const GUIDES: Guide[] = [
       { h2: 'The steps' },
       {
         ol: [
-          'Open [Protect PDF](/protect-pdf) and add the file.',
+          'Open [Protect PDF](/en/protect-pdf) and add the file.',
           'Type the password into **Password**, then again into **Repeat**. Until the two match you will see "The passwords do not match." and the button stays disabled.',
           'Set **Permissions**. **Allow printing** starts ticked. **Allow copying text and images** and **Allow editing and annotating** start unticked.',
           'Fill in **Owner password** if you want to be able to change those permissions later, or leave it blank.',
@@ -2605,23 +2607,23 @@ export const GUIDES: Guide[] = [
       { h2: 'Where it will refuse, and what it will not fix' },
       {
         ul: [
-          'An already encrypted file cannot be re-protected in one go. You will see "This PDF is already password-protected. Unlock it first." Send it through [Unlock PDF](/unlock-pdf) first, as [how to remove a password from a PDF](/guides/remove-pdf-password) describes.',
+          'An already encrypted file cannot be re-protected in one go. You will see "This PDF is already password-protected. Unlock it first." Send it through [Unlock PDF](/en/unlock-pdf) first, as [how to remove a password from a PDF](/en/guides/remove-pdf-password) describes.',
           'A password protects the file, not the message. Sending the password in the same e-mail as the attachment protects nobody. Use a different channel, a text message or a phone call.',
-          'Encrypting a document does not clean out what is already inside it. Author names, the software that produced it and earlier revision traces all travel along, encrypted but intact: see [how to check and remove hidden PDF metadata](/guides/remove-pdf-metadata).',
-          'If the document contains data that the recipient should not see at all, a password is the wrong instrument. Take it out with [Redact PDF](/redact-pdf) instead, because a password you have handed over protects nothing.',
+          'Encrypting a document does not clean out what is already inside it. Author names, the software that produced it and earlier revision traces all travel along, encrypted but intact: see [how to check and remove hidden PDF metadata](/en/guides/remove-pdf-metadata).',
+          'If the document contains data that the recipient should not see at all, a password is the wrong instrument. Take it out with [Redact PDF](/en/redact-pdf) instead, because a password you have handed over protects nothing.',
         ],
       },
 
       { h2: 'Nothing leaves the tab' },
       {
-        p: 'Encrypting a document on someone else\'s server means handing them the document and the password together, which undoes the exercise before it starts. This runs entirely in your browser: the file is read locally, encrypted locally and handed back as a download. There is no server to receive it, and you can watch the network panel stay empty while it works, as [how to check if a PDF tool uploads your files](/guides/does-a-pdf-tool-upload-your-files) explains.',
+        p: 'Encrypting a document on someone else\'s server means handing them the document and the password together, which undoes the exercise before it starts. This runs entirely in your browser: the file is read locally, encrypted locally and handed back as a download. There is no server to receive it, and you can watch the network panel stay empty while it works, as [how to check if a PDF tool uploads your files](/en/guides/does-a-pdf-tool-upload-your-files) explains.',
       },
-      { p: '**[Open Protect PDF](/protect-pdf)**' },
+      { p: '**[Open Protect PDF](/en/protect-pdf)**' },
     ],
   },
 
   {
-    path: '/guides/compare-two-pdfs',
+    path: '/en/guides/compare-two-pdfs',
     lang: 'en',
     tool: 'compare',
     title: 'How to compare two PDFs and see what changed',
@@ -2637,7 +2639,7 @@ export const GUIDES: Guide[] = [
 
       { h2: 'Why one comparison is not enough' },
       {
-        p: '[Compare PDFs](/compare-pdf) runs two independent comparisons over the same pair of files and shows you both, because each is blind to what the other catches:',
+        p: '[Compare PDFs](/en/compare-pdf) runs two independent comparisons over the same pair of files and shows you both, because each is blind to what the other catches:',
       },
       {
         ul: [
@@ -2652,7 +2654,7 @@ export const GUIDES: Guide[] = [
       { h2: 'Running it' },
       {
         ol: [
-          'Open [Compare PDFs](/compare-pdf) and drop the older file into **Original**.',
+          'Open [Compare PDFs](/en/compare-pdf) and drop the older file into **Original**.',
           'Drop the newer one into **Changed**. The labels are not decoration: they decide which direction counts as an addition and which as a removal, so putting them the wrong way round inverts every colour in the result.',
           'Click **Compare**. Both comparisons run together, and a progress count tracks the pages as they render.',
           'Use the switch above the results to move between the **Text** and **Visual** views. The summary line tells you how many text lines changed and how many pages differ at all.',
@@ -2682,20 +2684,20 @@ export const GUIDES: Guide[] = [
         ul: [
           '**An inserted or deleted page shifts everything after it.** Both comparisons line the files up by page number, so adding a page at the front makes every later page look rewritten. If the summary says nearly every page changed, check the page counts before reading anything into it.',
           '**A page that exists in only one file** is shown on its own and counted as entirely changed, because there is nothing to compare it against.',
-          '**Scanned documents compare as pictures.** Two scans of the same paper differ in every pixel from the scanner alone. Run both through [OCR](/ocr-pdf) first and compare the text, or accept that the visual diff will be noise.',
+          '**Scanned documents compare as pictures.** Two scans of the same paper differ in every pixel from the scanner alone. Run both through [OCR](/en/ocr-pdf) first and compare the text, or accept that the visual diff will be noise.',
           '**Nothing is inferred about meaning.** A renumbered clause and a rewritten clause look the same to both comparisons. The tool shows you where to look; it does not tell you whether it matters.',
         ],
       },
 
       { h2: 'These are the last two files to upload' },
       {
-        p: 'Comparing contract versions on someone else\'s server means uploading both of them, which is to say the terms, the parties and the numbers, twice. The usual online comparison tools do exactly that, and several keep the files long enough to show you the result from a link. Nothing is uploaded here. Both documents are read, rendered and compared inside the browser tab, and you can confirm it rather than take it on trust: open the network panel first and watch it stay empty, which [how to check if a PDF tool uploads your files](/guides/does-a-pdf-tool-upload-your-files) walks through.',
+        p: 'Comparing contract versions on someone else\'s server means uploading both of them, which is to say the terms, the parties and the numbers, twice. The usual online comparison tools do exactly that, and several keep the files long enough to show you the result from a link. Nothing is uploaded here. Both documents are read, rendered and compared inside the browser tab, and you can confirm it rather than take it on trust: open the network panel first and watch it stay empty, which [how to check if a PDF tool uploads your files](/en/guides/does-a-pdf-tool-upload-your-files) walks through.',
       },
-      { p: '**[Open Compare PDFs](/compare-pdf)**' },
+      { p: '**[Open Compare PDFs](/en/compare-pdf)**' },
     ],
   },
   {
-    path: '/guides/split-pdf-without-uploading',
+    path: '/en/guides/split-pdf-without-uploading',
     lang: 'en',
     tool: 'split',
     title: 'How to split a PDF without uploading it',
@@ -2711,7 +2713,7 @@ export const GUIDES: Guide[] = [
 
       { h2: 'The three modes' },
       {
-        p: '[Split PDF](/split-pdf) offers **Every page**, **By ranges** and **Extract pages**:',
+        p: '[Split PDF](/en/split-pdf) offers **Every page**, **By ranges** and **Extract pages**:',
       },
       {
         ul: [
@@ -2744,28 +2746,32 @@ export const GUIDES: Guide[] = [
 
       { h2: 'What a split leaves behind' },
       {
-        p: 'Each output is built as a new document with the chosen pages copied into it, which is the same mechanism [merging](/guides/merge-pdf-without-uploading) uses and it loses the same things. The pages themselves arrive intact, text, images, vector drawing and all. What does not survive is everything the document held at its own level rather than on a page:',
+        p: 'Each output is built as a new document with the chosen pages copied into it, which is the same mechanism [merging](/en/guides/merge-pdf-without-uploading) uses and it loses the same things. The pages themselves arrive intact, text, images, vector drawing and all. What does not survive is everything the document held at its own level rather than on a page:',
       },
       {
         ul: [
           '**Bookmarks and the outline tree.** They point at pages in the original document, and those targets do not exist in the new one.',
           '**Form fields.** An interactive form split into parts comes back as flat pages that look right and cannot be filled in. If you need the form, split a copy and keep the original.',
           '**Digital signatures.** A signature certifies a specific byte sequence. Changing which pages are present invalidates it by design, so the signature is dropped rather than carried across broken.',
-          '**Document properties.** Title, author and the rest do not come along. That is usually a quiet improvement, and [how to check and remove hidden PDF metadata](/guides/remove-pdf-metadata) covers what tends to be in there.',
+          '**Document properties.** Title, author and the rest do not come along. That is usually a quiet improvement, and [how to check and remove hidden PDF metadata](/en/guides/remove-pdf-metadata) covers what tends to be in there.',
         ],
       },
 
       { h2: 'Why splitting is a bad reason to upload' },
       {
-        p: 'Splitting is most often a step on the way to sending part of something: three pages of a longer statement, one invoice out of a monthly batch, a single page of a medical report. The document you are about to carve up therefore contains more than the part you want to share, which makes it exactly the wrong file to hand to a stranger\'s server. Nothing is uploaded here. The file is read, cut and written back inside the browser tab, with no request leaving your machine, and that is checkable rather than promised: see [how to check if a PDF tool uploads your files](/guides/does-a-pdf-tool-upload-your-files).',
+        p: 'Splitting is most often a step on the way to sending part of something: three pages of a longer statement, one invoice out of a monthly batch, a single page of a medical report. The document you are about to carve up therefore contains more than the part you want to share, which makes it exactly the wrong file to hand to a stranger\'s server. Nothing is uploaded here. The file is read, cut and written back inside the browser tab, with no request leaving your machine, and that is checkable rather than promised: see [how to check if a PDF tool uploads your files](/en/guides/does-a-pdf-tool-upload-your-files).',
       },
       {
-        p: 'If the part you are keeping still contains something the recipient should not read, splitting will not deal with it, because the text is all still there on the pages you kept. [Redact PDF](/redact-pdf) removes it properly, and [how to check a PDF redaction really removed the text](/guides/check-pdf-redaction) shows how to confirm it worked.',
+        p: 'If the part you are keeping still contains something the recipient should not read, splitting will not deal with it, because the text is all still there on the pages you kept. [Redact PDF](/en/redact-pdf) removes it properly, and [how to check a PDF redaction really removed the text](/en/guides/check-pdf-redaction) shows how to confirm it worked.',
       },
-      { p: '**[Open Split PDF](/split-pdf)**' },
+      { p: '**[Open Split PDF](/en/split-pdf)**' },
     ],
   },
 ];
+
+// Chinese guides are the default language of the site. They live in their own files so
+// the translations can be edited without scrolling through the English and Polish set.
+export const GUIDES: Guide[] = [...GUIDES_EN_PL, ...GUIDES_ZH_A, ...GUIDES_ZH_B];
 
 /** The guides about a tool, in one language (for the link on the tool's page). */
 export const guidesFor = (tool: ToolId, lang: Lang) => GUIDES.filter((g) => g.tool === tool && g.lang === lang);

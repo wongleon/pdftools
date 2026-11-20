@@ -1,6 +1,6 @@
 // Which dashboard page is open, and how links between them work.
 //
-// Web: every tool has a real address (/merge-pdf, /pl/polacz-pdf; see
+// Web: every tool has a real address (/merge-pdf, /en/merge-pdf, /pl/polacz-pdf; see
 // utilities/routes.ts) that the server answers with a static page for search
 // engines. In-app links switch pages with history.pushState, so the address bar
 // always shows a link that can be shared. Old #/tool/<id> links are rewritten to
@@ -10,7 +10,7 @@
 // the #/tool/<id> routes it has always used.
 import { useEffect, useState, type MouseEvent } from 'react';
 import { isDesktop } from './desktop';
-import { homePath, parsePath, TOOL_IDS, toolPath, type Lang, type ToolId } from '../utilities/routes';
+import { homePath, langFromPath, parsePath, TOOL_IDS, toolPath, type Lang, type ToolId } from '../utilities/routes';
 
 export interface Route {
   tool: ToolId | null;
@@ -27,9 +27,9 @@ export function currentRoute(): Route {
   const { pathname, hash, search } = window.location;
   if (isDesktop) {
     const id = hashTool(hash);
-    return { tool: isTool(id) ? id : null, lang: 'en' };
+    return { tool: isTool(id) ? id : null, lang: 'zh' };
   }
-  const fromPath = parsePath(pathname) ?? { tool: null, lang: 'en' };
+  const fromPath = parsePath(pathname) ?? { tool: null, lang: langFromPath(pathname) };
   if (hash.startsWith('#/')) {
     const id = hashTool(hash);
     const route: Route = { tool: isTool(id) ? id : null, lang: fromPath.lang };
@@ -44,7 +44,7 @@ const pathOf = (r: Route) => (r.tool ? toolPath(r.tool, r.lang) : homePath(r.lan
 /** Link target for a tool (null: the dashboard), in the language of the current address. */
 export function hrefFor(tool: ToolId | null): string {
   if (isDesktop) return tool ? `#/tool/${tool}` : '#/';
-  return pathOf({ tool, lang: parsePath(window.location.pathname)?.lang ?? 'en' });
+  return pathOf({ tool, lang: langFromPath(window.location.pathname) });
 }
 
 /** Opens a tool (null: the dashboard) as if a link to it was clicked. */
